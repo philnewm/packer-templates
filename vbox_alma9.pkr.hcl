@@ -8,6 +8,10 @@ packer {
       source  = "github.com/hashicorp/virtualbox"
       version = "~> 1"
     }
+    ansible = {
+      source = "github.com/hashicorp/ansible"
+      version = ">= 1.1.1"
+    }
   }
 }
 
@@ -66,8 +70,25 @@ build {
     scripts = ["scripts/init.sh"]
   }
 
+  provisioner "ansible" {
+    galaxy_file          = "./ansible/requirements.yml"
+    galaxy_force_install = true
+    collections_path     = "./ansible/collections"
+    roles_path           = "./ansible/roles"
+    playbook_file        = "./ansible/vagrant-box.yml"
+    ansible_env_vars = [
+      "ANSIBLE_PIPELINING=True",
+      "ANSIBLE_REMOTE_TEMP=/tmp",
+      "ANSIBLE_SCP_EXTRA_ARGS=-O"
+    ]
+    extra_arguments = [
+      "--extra-vars",
+      "packer_provider=${source.type}"
+    ]
+  }
+
   post-processor "vagrant" {
-    compression_level = "8"
+    compression_level = "9"
     output            = "almalinux-9.4-{{ .Provider }}.box"
   }
 }

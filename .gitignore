@@ -1,0 +1,3 @@
+*.box
+ansible/collections/
+ansible/roles/ezamriy.vbox_guest
