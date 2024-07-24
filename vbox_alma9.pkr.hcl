@@ -66,10 +66,6 @@ source "virtualbox-iso" "almalinux-9" {
 build {
   sources = ["source.virtualbox-iso.almalinux-9"]
 
-  provisioner "shell" {
-    scripts = ["scripts/init.sh"]
-  }
-
   provisioner "ansible" {
     galaxy_file          = "./ansible/requirements.yml"
     galaxy_force_install = true

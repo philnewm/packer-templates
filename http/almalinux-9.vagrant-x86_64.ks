@@ -9,9 +9,9 @@ skipx
 eula --agreed
 firstboot --disabled
 
-lang C.UTF-8
-keyboard us
-timezone UTC --utc
+lang EN.UTF-8
+keyboard de
+timezone Europe/Berlin --utc
 
 network --bootproto=dhcp
 firewall --disabled
@@ -80,5 +80,9 @@ yum clean all
 
 # permit root login via SSH with password authetication
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/01-permitrootlogin.conf
+
+# sync system time
+systemctl enable chronyd
+systemctl start chronyd
 
 %end
