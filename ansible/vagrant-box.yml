@@ -11,5 +11,7 @@
     - role: ezamriy.vbox_guest
     - install_vagrant_key
     - nfs-client
+    - role: gnome_setup
+      gnome_setup_state: present
     - role: cleanup_vm
       cleanup_ssh_host_keys: "{{ packer_provider != 'hyperv-iso' }}"

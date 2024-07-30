@@ -2,3 +2,4 @@
 ansible/collections/
 ansible/roles/ezamriy.vbox_guest
 .vagrant
+ansible/roles/gnome_setup

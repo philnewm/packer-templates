@@ -4,5 +4,8 @@
 * research resonable defaults kickstart information for vbox dev VMs/libvirt VMs
 
 # Upcoming features
-* implemnt shell script for full test run down
+* implement shell script for full test run down
 * move this one into a github action
+
+# Errors
+* TASK [gnome_setup : Configure basic gnome-settings] fails caused by missing psutil
