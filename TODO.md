@@ -7,5 +7,5 @@
 * implement shell script for full test run down
 * move this one into a github action
 
-# Errors
-* TASK [gnome_setup : Configure basic gnome-settings] fails caused by missing psutil
+# infos
+*checksum (sha256sum): f7ea0469a4ff0fbfc4be7d013431fe839c3fdca3dc969dd7086c98d757e92389

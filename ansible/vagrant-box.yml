@@ -1,5 +1,8 @@
-# An Ansible playbook that configures a Vagrant box
 ---
+
+# An Ansible playbook that configures a Vagrant box
+
+
 - name: "AlmaLinux Vagrant Box"
   hosts: default
   become: true
@@ -8,10 +11,10 @@
 
   roles:
     - upgrade_and_reboot
-    - role: ezamriy.vbox_guest
+    - ezamriy.vbox_guest
     - install_vagrant_key
     - nfs-client
-    - role: gnome_setup
+    - role: philnewm.gnome
       gnome_setup_state: present
     - role: cleanup_vm
       cleanup_ssh_host_keys: "{{ packer_provider != 'hyperv-iso' }}"
