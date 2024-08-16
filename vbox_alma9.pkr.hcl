@@ -51,6 +51,8 @@ source "virtualbox-iso" "almalinux-9" {
   firmware             = "efi"
   vboxmanage = [
     ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+    ["modifyvm", "{{.Name}}", "--rtcuseutc", "on"],
+    ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga"]
   ]
   vboxmanage_post = [
     ["modifyvm", "{{.Name}}", "--cpus", 2],
