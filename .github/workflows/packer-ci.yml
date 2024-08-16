@@ -39,7 +39,7 @@ jobs:
       - name: Update system
         run: |
           sudo apt-get update -y
-      
+
       - name: Install VirtualBox 7.0.14
         run: |
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
@@ -52,12 +52,9 @@ jobs:
       - name: Verify VirtualBox installation
         run: VBoxManage --version
 
-      - name: Install vagrant
-        run: |
-          # Get vagrant gpg key
-          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt-get update && sudo apt-get install vagrant -y
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@v3.1.0
+        id: setup
 
       - name: Verify Vagrant installation
         run: vagrant --version
@@ -67,6 +64,9 @@ jobs:
           wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
           echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
           sudo apt update && sudo apt install packer
+
+      - name: Verify packer installation
+        run: packer --version
 
       - name: Run packer build
         run: |
