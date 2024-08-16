@@ -71,6 +71,7 @@ jobs:
 
       - name: Run packer build
         run: |
+          packer init vbox_alma9.pkr.hcl
           packer build vbox_alma9.pkr.hcl
 
       - name: Test to run vagrant box

@@ -6,3 +6,5 @@ ansible/roles/gnome_setup
 ansible/roles/
 ansible/requirements.yml
 .vscode
+Vagrantfile
+*.vdi
