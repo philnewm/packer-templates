@@ -54,7 +54,7 @@ source "virtualbox-iso" "almalinux-9" {
   ]
   vboxmanage_post = [
     ["modifyvm", "{{.Name}}", "--cpus", 2],
-    ["modifyvm", "{{.Name}}", "--memory", 2048],
+    ["modifyvm", "{{.Name}}", "--memory", 4096],
     ["modifyvm", "{{.Name}}", "--uartmode1", "disconnected"],
     ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga"],
     ["modifyvm", "{{.Name}}", "--vram", "256"],

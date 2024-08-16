@@ -10,7 +10,8 @@ eula --agreed
 firstboot --disabled
 
 lang EN.UTF-8
-keyboard de
+keyboard us
+timezone Europe/Berlin
 
 network --bootproto=dhcp
 firewall --disabled
@@ -77,7 +78,10 @@ echo "vagrant     ALL=(ALL)     NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
 sed -i "s/^.*requiretty/# Defaults requiretty/" /etc/sudoers
 yum clean all
 
-# permit root login via SSH with password authetication
+# permit root login via SSH with password authentification
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/01-permitrootlogin.conf
+
+# set RTC to localtime
+timedatectl set-local-rtc 0
 
 %end
