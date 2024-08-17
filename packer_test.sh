@@ -14,8 +14,9 @@ rm -Rf .vagrant/
 rm Vagrantfile
 
 # Build vbox image
-packer build -on-error=ask vbox_alma9.pkr.hcl
-vagrant box add --name alma9 almalinux-9.4-virtualbox.box
+packer build -on-error=ask -only=virtualbox-iso.almalinux-9 .
+vagrant box remove alma9
+vagrant box add --name alma9 AlmaLinux-9-Vagrant-virtualbox-9.4.x86_64.box
 
 vagrant init alma9
-vagrant up alma9
+vagrant up

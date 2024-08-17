@@ -1,4 +1,5 @@
 ---
+
 collections:
   - ansible.posix
   - almalinux.ci
@@ -7,3 +8,5 @@ collections:
 roles:
   - ezamriy.vbox_guest
   - philnewm.gnome
+
+...

@@ -8,11 +8,9 @@ text
 skipx
 eula --agreed
 firstboot --disabled
-
 lang EN.UTF-8
 keyboard us
-timezone Europe/Berlin
-
+timezone UTC --utc
 network --bootproto=dhcp
 firewall --disabled
 services --enabled=sshd

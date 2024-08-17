@@ -71,14 +71,14 @@ jobs:
 
       - name: Run packer build
         run: |
-          packer init vbox_alma9.pkr.hcl
-          packer build vbox_alma9.pkr.hcl
+          packer init versions.pkr.hcl
+          packer build -only=qemu.almalinux-9 .
 
       - name: Test to run vagrant box
         run: |
-          vagrant box add --name alma9 almalinux-9.4-virtualbox.box
+          vagrant box add --name alma9 AlmaLinux-9-Vagrant-qemu-9.4.x86_64.box
           vagrant init alma9
-          vagrant up alma9
+          vagrant up
 
       - name: Show running box
         run: |
