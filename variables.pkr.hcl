@@ -11,12 +11,18 @@ variable "os_ver_9" {
 }
 
 locals {
+  os_ver_major_9 = split(".", var.os_ver_9)[0]
   os_ver_minor_9 = split(".", var.os_ver_9)[1]
 }
 
 locals {
-  iso_url_9_x86_64       = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/AlmaLinux-${var.os_ver_9}-x86_64-boot.iso"
-  iso_checksum_9_x86_64  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/CHECKSUM"
+  alma_iso_url_9_x86_64       = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/AlmaLinux-${var.os_ver_9}-x86_64-boot.iso"
+  alma_iso_checksum_9_x86_64  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/CHECKSUM"
+}
+
+locals {
+  rocky_iso_url_9_x86_64       = "https://dl.rockylinux.org/pub/rocky/${local.os_ver_major_9}/isos/x86_64/Rocky-${var.os_ver_9}-x86_64-boot.iso"
+  rocky_iso_checksum_9_x86_64  = "file:https://dl.rockylinux.org/pub/rocky/${local.os_ver_major_9}/isos/x86_64/CHECKSUM"
 }
 
 # Common
@@ -153,7 +159,7 @@ variable "vagrant_boot_command_8_x86_64_bios" {
   ]
 }
 
-local "vagrant_boot_command_9_x86_64" {
+local "alma9_vagrant_boot_command_9_x86_64" {
   expression = [
     "c",
     "<wait>",
@@ -168,7 +174,22 @@ local "vagrant_boot_command_9_x86_64" {
   ]
 }
 
-variable "vagrant_boot_command_9_x86_64_bios" {
+local "rocky_vagrant_boot_command_9_x86_64" {
+  expression = [
+    "c",
+    "<wait>",
+    "linuxefi /images/pxeboot/vmlinuz",
+    " inst.stage2=hd:LABEL=Rocky-9-${local.os_ver_minor_9}-x86_64-dvd ro",
+    " inst.text biosdevname=0 net.ifnames=0",
+    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rocky-9.vagrant-x86_64.ks",
+    "<enter>",
+    "initrdefi /images/pxeboot/initrd.img",
+    "<enter>",
+    "boot<enter><wait>",
+  ]
+}
+
+variable "alma9_vagrant_boot_command_9_x86_64_bios" {
   description = "Boot command for x86_64 BIOS"
 
   type = list(string)
@@ -176,17 +197,5 @@ variable "vagrant_boot_command_9_x86_64_bios" {
     "<tab>",
     "inst.text inst.gpt inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/almalinux-9.vagrant-x86_64-bios.ks",
     "<enter><wait>",
-  ]
-}
-
-variable "vagrant_boot_command_9_aarch64" {
-  description = "Boot command for AArch64"
-
-  type = list(string)
-  default = [
-    "e",
-    "<down><down><end><bs><bs><bs><bs><bs>",
-    "inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/almalinux-9.vagrant-aarch64.ks",
-    "<leftCtrlOn>x<leftCtrlOff>",
   ]
 }

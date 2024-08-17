@@ -1,14 +1,14 @@
-# AlmaLinux OS 9 Packer template for Vagrant boxes
+# Rocky OS 9 Packer template for Vagrant boxes
 
-source "qemu" "almalinux-9" {
-  iso_url            = local.alma_iso_url_9_x86_64
-  iso_checksum       = local.alma_iso_checksum_9_x86_64
+source "qemu" "rocky-9" {
+  iso_url            = local.rocky_iso_url_9_x86_64
+  iso_checksum       = local.rocky_iso_checksum_9_x86_64
   http_directory     = var.http_directory
   shutdown_command   = var.vagrant_shutdown_command
   ssh_username       = var.vagrant_ssh_username
   ssh_password       = var.vagrant_ssh_password
   ssh_timeout        = var.ssh_timeout
-  boot_command       = local.alma9_vagrant_boot_command_9_x86_64
+  boot_command       = local.rocky_vagrant_boot_command_9_x86_64
   boot_wait          = var.boot_wait
   accelerator        = "kvm"
   disk_interface     = "virtio-scsi"
@@ -23,7 +23,7 @@ source "qemu" "almalinux-9" {
   memory             = var.memory
   net_device         = "virtio-net"
   qemu_binary        = var.qemu_binary
-  vm_name            = "AlmaLinux-9-Vagrant-Libvirt-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.qcow2"
+  vm_name            = "Rocky-9-Vagrant-Libvirt-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.qcow2"
   cpu_model          = "host"
   cpus               = var.cpus
   efi_boot           = true
@@ -33,7 +33,7 @@ source "qemu" "almalinux-9" {
   output_directory   = "output_qemu"
 }
 
-source "virtualbox-iso" "almalinux-9" {
+source "virtualbox-iso" "rocky-9" {
   iso_url              = local.alma_iso_url_9_x86_64
   iso_checksum         = local.alma_iso_checksum_9_x86_64
   http_directory       = var.http_directory
@@ -41,7 +41,7 @@ source "virtualbox-iso" "almalinux-9" {
   ssh_username         = var.vagrant_ssh_username
   ssh_password         = var.vagrant_ssh_password
   ssh_timeout          = var.ssh_timeout
-  boot_command         = local.alma9_vagrant_boot_command_9_x86_64
+  boot_command         = local.rocky_vagrant_boot_command_9_x86_64
   boot_wait            = var.boot_wait
   firmware             = "efi"
   disk_size            = var.vagrant_disk_size
@@ -66,8 +66,8 @@ source "virtualbox-iso" "almalinux-9" {
 
 build {
   sources = [
-    "source.qemu.almalinux-9",
-    "source.virtualbox-iso.almalinux-9"
+    "source.qemu.rocky-9",
+    "source.virtualbox-iso.rocky-9"
   ]
 
   provisioner "ansible" {
@@ -86,23 +86,23 @@ build {
       "packer_provider=${source.type}",
     ]
     only = [
-      "qemu.almalinux-9",
-      "virtualbox-iso.almalinux-9"
+      "qemu.rocky-9",
+      "virtualbox-iso.rocky-9"
     ]
   }
     post-processors {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "AlmaLinux-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
-      only = ["virtualbox-iso.almalinux-9"]
+      output            = "rocky-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      only = ["virtualbox-iso.rocky-9"]
     }
 
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
-      output               = "AlmaLinux-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
-      only                 = ["qemu.almalinux-9"]
+      output               = "rocky-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      only                 = ["qemu.rocky-9"]
     }
   }
 }

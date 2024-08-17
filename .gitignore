@@ -2,9 +2,9 @@
 ansible/collections/
 ansible/roles/ezamriy.vbox_guest
 .vagrant
-ansible/roles/gnome_setup
-ansible/roles/
-ansible/requirements.yml
+ansible/roles/philnewm.gnome
+ansible/roles/ezamriy.vbox_guest
+
 .vscode
 Vagrantfile
 *.vdi
