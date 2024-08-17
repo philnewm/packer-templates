@@ -1,6 +1,6 @@
 ---
 
-name: packer-ci
+name: alma9-qemu-ci
 
 on:
   push:
@@ -61,6 +61,10 @@ jobs:
 
       - name: Verify Vagrant installation
         run: vagrant --version
+
+      - name: Install qemu
+        run: |
+          sudo apt-get install qemu -y
 
       - name: Setup Packer
         uses: hashicorp/setup-packer@v3.1.0
