@@ -64,7 +64,7 @@ jobs:
 
       - name: Install qemu
         run: |
-          sudo apt-get install qemu -y
+          sudo apt-get install qemu-kvm -y
 
       - name: Setup Packer
         uses: hashicorp/setup-packer@v3.1.0

@@ -1,4 +1,9 @@
-# Known Setup issues
+# Short Term
+* Research packer configs for Rocky 9 and CentOSStream9
+* Research packer configs for Debian12 and ubuntu22.04
+
+
+# Long Term
 * research how to manage static ip adresses for pre-made images
 * research resonable defaults kickstart information for vbox dev VMs/libvirt VMs
 
