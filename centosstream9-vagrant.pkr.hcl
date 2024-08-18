@@ -66,7 +66,7 @@ source "virtualbox-iso" "centosstream-9" {
 
 build {
   sources = [
-    "source.qemu.rocky-9",
+    "source.qemu.centosstream-9",
     "source.virtualbox-iso.centosstream-9"
   ]
 

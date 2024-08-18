@@ -27,7 +27,7 @@ locals {
 
 locals {
   centosstream_iso_url_9_x86_64       = "https://mirror.stream.centos.org/${local.os_ver_major_9}-stream/BaseOS/x86_64/iso/CentOS-Stream-${local.os_ver_major_9}-latest-x86_64-boot.iso"
-  rocky_iso_checksum_9_x86_64  = "file:https://mirror.stream.centos.org/${local.os_ver_major_9}-stream/BaseOS/x86_64/iso/CentOS-Stream-${local.os_ver_major_9}-latest-x86_64-boot.iso.MD5SUM"
+  centosstream_iso_checksum_9_x86_64  = "file:https://mirror.stream.centos.org/${local.os_ver_major_9}-stream/BaseOS/x86_64/iso/CentOS-Stream-${local.os_ver_major_9}-latest-x86_64-boot.iso.MD5SUM"
 }
 
 # Common
