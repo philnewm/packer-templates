@@ -25,6 +25,11 @@ locals {
   rocky_iso_checksum_9_x86_64  = "file:https://dl.rockylinux.org/pub/rocky/${local.os_ver_major_9}/isos/x86_64/CHECKSUM"
 }
 
+locals {
+  centosstream_iso_url_9_x86_64       = "https://mirror.stream.centos.org/${local.os_ver_major_9}-stream/BaseOS/x86_64/iso/CentOS-Stream-${local.os_ver_major_9}-latest-x86_64-boot.iso"
+  rocky_iso_checksum_9_x86_64  = "file:https://mirror.stream.centos.org/${local.os_ver_major_9}-stream/BaseOS/x86_64/iso/CentOS-Stream-${local.os_ver_major_9}-latest-x86_64-boot.iso.MD5SUM"
+}
+
 # Common
 
 variable "headless" {
@@ -159,7 +164,7 @@ variable "vagrant_boot_command_8_x86_64_bios" {
   ]
 }
 
-local "alma9_vagrant_boot_command_9_x86_64" {
+local "alma_vagrant_boot_command_9_x86_64" {
   expression = [
     "c",
     "<wait>",
@@ -182,6 +187,21 @@ local "rocky_vagrant_boot_command_9_x86_64" {
     " inst.stage2=hd:LABEL=Rocky-9-${local.os_ver_minor_9}-x86_64-dvd ro",
     " inst.text biosdevname=0 net.ifnames=0",
     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rocky-9.vagrant-x86_64.ks",
+    "<enter>",
+    "initrdefi /images/pxeboot/initrd.img",
+    "<enter>",
+    "boot<enter><wait>",
+  ]
+}
+
+local "centosstream_vagrant_boot_command_9_x86_64" {
+  expression = [
+    "c",
+    "<wait>",
+    "linuxefi /images/pxeboot/vmlinuz",
+    " inst.stage2=hd:LABEL=CentOSStream-9-${local.os_ver_minor_9}-x86_64-dvd ro",
+    " inst.text biosdevname=0 net.ifnames=0",
+    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centosstream-9.vagrant-x86_64.ks",
     "<enter>",
     "initrdefi /images/pxeboot/initrd.img",
     "<enter>",
