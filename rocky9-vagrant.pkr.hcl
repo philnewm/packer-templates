@@ -34,8 +34,8 @@ source "qemu" "rocky-9" {
 }
 
 source "virtualbox-iso" "rocky-9" {
-  iso_url              = local.alma_iso_url_9_x86_64
-  iso_checksum         = local.alma_iso_checksum_9_x86_64
+  iso_url              = local.rocky_iso_url_9_x86_64
+  iso_checksum         = local.rocky_iso_checksum_9_x86_64
   http_directory       = var.http_directory
   shutdown_command     = var.vagrant_shutdown_command
   ssh_username         = var.vagrant_ssh_username

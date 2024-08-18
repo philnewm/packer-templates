@@ -1,4 +1,4 @@
-# AlmaLinux 9 kickstart file for Vagrant boxes
+# Rocky 9 kickstart file for Vagrant boxes
 
 url --url https://dl.rockylinux.org/pub/rocky/9/BaseOS/x86_64/kickstart/
 repo --name=BaseOS --baseurl=https://dl.rockylinux.org/pub/rocky/9/BaseOS/x86_64/os/
