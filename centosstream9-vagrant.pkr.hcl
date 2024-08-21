@@ -1,4 +1,6 @@
 # CentOSStream 9 Packer template for Vagrant boxes
+# https://gitlab.com/redhat/centos-stream/release-engineering/kickstarts/-/tree/main?ref_type=heads
+# https://www.virtualbox.org/ticket/22099
 
 source "qemu" "centosstream-9" {
   iso_url            = local.centosstream_iso_url_9_x86_64
@@ -86,8 +88,8 @@ build {
       "packer_provider=${source.type}",
     ]
     only = [
-      "qemu.rocky-9",
-      "virtualbox-iso.rocky-9"
+      "qemu.centosstream-9",
+      "virtualbox-iso.centosstream-9"
     ]
   }
     post-processors {

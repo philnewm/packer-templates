@@ -199,7 +199,7 @@ local "centosstream_vagrant_boot_command_9_x86_64" {
     "c",
     "<wait>",
     "linuxefi /images/pxeboot/vmlinuz",
-    " inst.stage2=hd:LABEL=CentOSStream-9-${local.os_ver_minor_9}-x86_64-dvd ro",
+    " inst.stage2=hd:LABEL=CentOS-Stream-9-BaseOS-x86_64 ro",
     " inst.text biosdevname=0 net.ifnames=0",
     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centosstream-9.vagrant-x86_64.ks",
     "<enter>",
