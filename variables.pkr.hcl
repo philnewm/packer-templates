@@ -30,6 +30,16 @@ locals {
   centosstream_iso_checksum_9_x86_64  = "file:https://mirror.stream.centos.org/${local.os_ver_major_9}-stream/BaseOS/x86_64/iso/CentOS-Stream-${local.os_ver_major_9}-latest-x86_64-boot.iso.MD5SUM"
 }
 
+locals {
+  ubuntu_iso_url_2204_x86_64       = "https://releases.ubuntu.com/22.04/ubuntu-22.04.4-live-server-amd64.iso"
+  ubuntu_iso_checksum_2204_x86_64  = "file:https://releases.ubuntu.com/releases/22.04/SHA256SUMS"
+}
+
+locals {
+  debian_iso_url_12_x86_64       = "https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso"
+  debian_iso_checksum_12_x86_64  = "file:https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-cd/SHA512SUMS"
+}
+
 # Common
 
 variable "headless" {
@@ -206,6 +216,34 @@ local "centosstream_vagrant_boot_command_9_x86_64" {
     "initrdefi /images/pxeboot/initrd.img",
     "<enter>",
     "boot<enter><wait>",
+  ]
+}
+
+local "ubuntu_vagrant_boot_command_2204_x86_64" {
+  expression = [
+    "<wait><wait><wait><esc><wait><wait><wait>",
+    "/install.amd/vmlinuz ",
+    "initrd=/install.amd/initrd.gz ",
+    "auto=true ",
+    "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-2204-vagrant-x86_64.preseed ",
+    "hostname=doain.localdomain ",
+    "domain='' ",
+    "interface=auto ",
+    "vga=788 noprompt quiet --<enter>"
+  ]
+}
+
+local "debian_vagrant_boot_command_12_x86_64" {
+  expression = [
+    "<wait><wait><wait><esc><wait><wait><wait>",
+    "/install.amd/vmlinuz ",
+    "initrd=/install.amd/initrd.gz ",
+    "auto=true ",
+    "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-12-vagrant-x86_64.preseed ",
+    "hostname=doain.localdomain ",
+    "domain='' ",
+    "interface=auto ",
+    "vga=788 noprompt quiet --<enter>"
   ]
 }
 
