@@ -1,13 +1,13 @@
 ---
 - name: Remove old kernels
-  shell: dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
+  shell: apt remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
 
 - name: Delete DNF cache
-  command: dnf clean all
+  command: apt clean all
 
 - name: Find DNF history files
   ansible.builtin.find:
-    paths: /var/lib/dnf
+    paths: /var/lib/apt
     patterns: "history*"
   register: dnf_history
 

@@ -12,17 +12,16 @@
   roles:
     - role: unified_boot
       when: is_unified_boot is defined
-    # - role: ezamriy.vbox_guest
-    #   when: packer_provider == 'virtualbox-iso'
     - role: philnewm.vbox_guest
-      when: packer_provider == 'virtualbox-iso'
+      vbox_guest_state: "present"
+      when: packer_provider == "virtualbox-iso"
     - role: qemu_guest
-      when: packer_provider == 'qemu'
+      when: packer_provider == "qemu"
     - install_vagrant_key
     - nfs-client
-    - role: philnewm.gnome
-      gnome_setup_state: present
-      gnome_enable_reboot: false
+    # - role: philnewm.gnome
+    #   gnome_setup_state: present
+    #   gnome_enable_reboot: false
     - role: cleanup_vm
       cleanup_ssh_host_keys: "{{ packer_provider != 'hyperv-iso' }}"
 

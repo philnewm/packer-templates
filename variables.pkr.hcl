@@ -139,7 +139,7 @@ variable "vagrant_disk_size" {
   description = "The size in MiB of hard disk of VM"
 
   type    = number
-  default = 20000
+  default = 25000
 }
 
 variable "vagrant_shutdown_command" {
