@@ -1,0 +1,43 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Gather package facts
+      package_facts:
+        manager: rpm
+
+    - name: Check VBoxGuestAdditions.iso removed
+      stat:
+        path: /home/vagrant/VBoxGuestAdditions.iso
+      register: local_iso
+      failed_when: local_iso.stat.exists
+
+    - name: Check VirtualBox kernel module loaded
+      shell: |
+        set -eo pipefail
+        lsmod | grep -P '^{{ item }}'
+      with_items:
+        - vboxguest
+        - vboxsf
+
+    - name: Check /var/log/vboxadd-* logs deleted
+      find:
+        paths: /var/log
+        patterns: 'vboxadd-*'
+      register: vboxadd_find
+      failed_when: vboxadd_find.matched > 0
+
+    - name: Check VirtualBox Guest Additions dependencies removed
+      debug:
+        msg: "Check {{ item }} package removed"
+      failed_when: item in ansible_facts.packages|list
+      loop:
+        - elfutils-libelf-devel
+        - gcc
+        - kernel-devel
+        - kernel-headers
+        - make
+        - perl

@@ -12,7 +12,9 @@
   roles:
     - role: unified_boot
       when: is_unified_boot is defined
-    - role: ezamriy.vbox_guest
+    # - role: ezamriy.vbox_guest
+    #   when: packer_provider == 'virtualbox-iso'
+    - role: philnewm.vbox_guest
       when: packer_provider == 'virtualbox-iso'
     - role: qemu_guest
       when: packer_provider == 'qemu'

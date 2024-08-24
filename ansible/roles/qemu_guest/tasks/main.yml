@@ -1,6 +1,6 @@
 ---
 - name: Install qemu-guest-agent and rsync
-  dnf:
+  apt:
     name:
       - qemu-guest-agent
       - rsync

@@ -1,6 +1,8 @@
 ---
+
 - name: Install NFS
-  dnf:
+  ansible.builtin.package:
     name:
-      - nfs-utils
-    state: latest
+      # - nfs-utils
+      - nfs-common
+    state: present

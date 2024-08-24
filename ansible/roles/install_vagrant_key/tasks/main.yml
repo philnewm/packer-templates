@@ -1,7 +1,7 @@
 ---
-- name: Install python3-libselinux
-  dnf:
-    name: python3-libselinux
+- name: Install python3-selinux
+  apt:
+    name: python3-selinux
     state: present
 
 - name: Install Vagrant public SSH key

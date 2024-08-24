@@ -1,0 +1,55 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  tasks:
+    - name: Upgrade all packages
+      dnf:
+        name: '*'
+        state: latest
+
+    - name: Reboot VM
+      reboot:
+
+    - name: Wait for reboot
+      wait_for_connection:
+        delay: 60
+        sleep: 5
+        timeout: 300
+
+    - name: Check local VBoxGuestAdditions.iso presence
+      stat:
+        path: /usr/share/virtualbox/VBoxGuestAdditions.iso
+      become: false
+      delegate_to: localhost
+      register: local_iso
+
+    - name: Upload local VBoxGuestAdditions.iso to VM
+      copy:
+        src: /usr/share/virtualbox/VBoxGuestAdditions.iso
+        dest: /home/vagrant/VBoxGuestAdditions.iso
+        owner: vagrant
+        group: vagrant
+        mode: '0600'
+      when: local_iso.stat.exists
+
+    - name: Upload remote VBoxGuestAdditions.iso to VM
+      block:
+        - name: Detect VirtualBox version
+          shell: VBoxManage -version | grep -oP '^\d+\.\d+\.\d+'
+          become: false
+          delegate_to: localhost
+          register: vbox_ver_cmd
+
+        - name: Generate VBoxGuestAdditions.iso download URL
+          set_fact:
+            vbox_iso_url: "http://download.virtualbox.org/virtualbox/{{ vbox_ver_cmd.stdout }}/VBoxGuestAdditions_{{ vbox_ver_cmd.stdout }}.iso"
+
+        - name: Download {{ vbox_iso_url }}
+          get_url:
+            url: "{{ vbox_iso_url }}"
+            dest: /home/vagrant/VBoxGuestAdditions.iso
+            owner: vagrant
+            group: vagrant
+            mode: '0600'
+      when: not local_iso.stat.exists
