@@ -1,86 +1,57 @@
-# Locale Setup
-d-i debian-installer/language string en
-d-i debian-installer/country string DE
+### Localization
 d-i debian-installer/locale string en_US.UTF-8
-# d-i localechooser/supported-locales multiselect en_CA.UTF-8 fr_CA.UTF-8 zh_CN.UTF-8
-# d-i pkgsel/install-language-support boolean true
-
-# Keyboard Setup
+d-i console-setup/ask_detect boolean false
+d-i console-setup/layoutcode string us
+d-i console-setup/modelcode string pc105
 d-i keyboard-configuration/xkb-keymap select us
+d-i localechooser/preferred-locale string en_US.UTF-8
+d-i localechooser/supported-locales en_US.UTF-8
 
-# Clock Setup
-# d-i time/zone string Canada/Eastern
-d-i time/zone string UTC
-d-i clock-setup/utc boolean true
-# set above to false if making a bootable USB to run on same system as Windows
-
-# Network Setup
-d-i netcfg/get_hostname string localhost.localdomain
-d-i netcfg/get_domain string
-# https://bugs.launchpad.net/ubuntu/+source/netcfg/+bug/713385
+### Network configuration
 d-i netcfg/choose_interface select auto
-# make sure you also add "interface=auto" to your boot command too
-# https://bugs.launchpad.net/ubuntu/+source/netcfg/+bug/713385
+d-i netcfg/wireless_wep string
 
-# User Setup
-d-i passwd/user-fullname string vagrant
-d-i passwd/username string vagrant
-d-i passwd/user-password password vagrant
-d-i passwd/user-password-again password vagrant
-# d-i passwd/user-password-crypted password $6$w5yFawT.$d51yQ513SdzariRCjomBwO9IMtMh6.TjnRwQqTBlOMwGhyyVXlJeYC9kanFp65bpoS1tn9x7r8gLP5Dg4CtEP1
-d-i user-setup/allow-password-weak boolean true
-d-i user-setup/encrypt-home boolean false
-d-i passwd/root-login boolean false
-
-# Package Setup
-d-i hw-detect/load_firmware boolean false
-d-i hw-detect/load_media boolean false
-apt-cdrom-setup apt-setup/cdrom/set-first boolean false
-d-i mirror/country string de
+### Mirror settings
+d-i mirror/country string manual
 d-i mirror/http/hostname string archive.ubuntu.com
 d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
-# d-i mirror/http/proxy string ${var.apt_cache_url}
-d-i apt-setup/contrib boolean true
-d-i apt-setup/non-free boolean true
-tasksel tasksel/first multiselect print-server, ssh-server, standard
-d-i pkgsel/include string linux-generic, sudo, unattended-upgrades
-popularity-contest popularity-contest/participate boolean false
 
-# Drive Setup
-d-i grub-installer/only_debian boolean true
-d-i grub-installer/with_other_os boolean true
-d-i grub-installer/bootdev string default
-d-i partman-auto/disk string /dev/sda
-d-i partman-lvm/device_remove_lvm boolean true
-d-i partman-md/device_remove_md boolean true
+### Account setup
+d-i passwd/root-login boolean false
+d-i passwd/user-fullname string vagrant
+d-i passwd/user-uid string 1000
+d-i passwd/username string vagrant
+d-i passwd/user-password-crypted password $6$22FQNGFudjDgx9Ss$vkEbaR74hbh8ArfYBoZyFT5QcrMpBN48dhKyFM.bv9ZsIPlbgrP1T86LS7ZB0w7u0M3NgLlveZ/1fRDSx.aNO/
+d-i user-setup/allow-password-weak boolean true
+d-i user-setup/encrypt-home boolean false
+
+### Clock and time zone setup
+d-i clock-setup/utc boolean true
+d-i time/zone string Etc/UTC
+d-i clock-setup/ntp boolean false
+
+### Partitioning
+d-i partman-auto/method string regular
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
-d-i partman/confirm_nooverwrite boolean true
-d-i partman-auto/method string lvm
-d-i partman-auto-lvm/new_vg_name string primary
-d-i partman-auto-lvm/guided_size string max
-d-i partman-lvm/confirm boolean true
-d-i partman-lvm/confirm_nooverwrite boolean true
-d-i partman-auto/choose_recipe select fling-the-bling
-d-i partman-auto/expert_recipe string fling-the-bling :: \
-  1 1 1 free \
-    $bios_boot{ } method{ biosgrub } \
-  . \
-  256 256 256 fat32 \
-    $primary{ } $lvmignore{ } \
-  . \
-  100% 200% 200% linux-swap \
-    $lvmok{ } lv_name{ swap } in_vg{ primary } \
-    method{ swap } format{ } \
-  . \
-  10000 10000 -1 ext4 \
-    $lvmok{ } lv_name{ root } in_vg{ primary } \
-    method{ format } format{ } use_filesystem{ } filesystem{ ext4 } \
-    mountpoint{ / } \
-  . \
-.
 
-# Final Setup
+### Package selection
+d-i pkgsel/include string sudo, openssh-server, curl, wget, vim, git
+d-i pkgsel/upgrade select full-upgrade
+tasksel tasksel/first multiselect standard
+
+### Boot loader installation
+d-i grub-installer/only_debian boolean false
+d-i grub-installer/bootdev string /dev/sda
+
+### Finishing up the installation
+d-i finish-install/keep-consoles boolean true
 d-i finish-install/reboot_in_progress note
+
+### Inject the vagrant ssh key
+d-i preseed/late_command string \
+  mkdir -p /target/home/vagrant/.ssh && \
+  chown -R 1000:1000 /target/home/vagrant/.ssh && \
+  echo "vagrant        ALL=(ALL)       NOPASSWD: ALL" >> /target/etc/sudoers.d/vagrant

@@ -221,15 +221,15 @@ local "centosstream_vagrant_boot_command_9_x86_64" {
 
 local "ubuntu_vagrant_boot_command_2204_x86_64" {
   expression = [
-    "<wait><wait><wait><esc><wait><wait><wait>",
-    "/install.amd/vmlinuz ",
-    "initrd=/install.amd/initrd.gz ",
-    "auto=true ",
-    "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-2204-vagrant-x86_64.preseed ",
-    "hostname=doain.localdomain ",
-    "domain='' ",
-    "interface=auto ",
-    "vga=788 noprompt quiet --<enter>"
+    "<esc><esc><esc>",
+    "c<wait>",
+    "set gfxpayload=keep<enter><wait>",
+    "linux /casper/vmlinuz <wait>",
+    "autoinstall <wait>",
+    "ds=\"nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/\" <wait>",
+    "---<enter><wait>",
+    "initrd /casper/initrd<enter><wait>",
+    "boot<enter>"
   ]
 }
 
