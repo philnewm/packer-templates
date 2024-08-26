@@ -13,10 +13,8 @@ autoinstall:
     geoip: true
     preserve_sources_list: false
     primary:
-    - arches: "[amd64, i386]"
-      uri: "mirror://mirrors.ubuntu.com/mirrors.txt"
     - arches: "[default]"
-      uri: "http://ports.ubuntu.com/ubuntu-ports"
+      uri: "http://de.archive.ubuntu.com/ubuntu/"
   identity:
     hostname: "ubuntu2204"
     username: "vagrant"

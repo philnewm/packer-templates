@@ -44,7 +44,7 @@ source "virtualbox-iso" "debian-12" {
   boot_command         = local.debian_vagrant_boot_command_12_x86_64
   boot_wait            = var.boot_wait
   disk_size            = var.vagrant_disk_size
-  guest_os_type        = "RedHat_64"
+  guest_os_type        = "Debian_64"
   cpus                 = var.cpus
   memory               = var.memory
   headless             = var.headless

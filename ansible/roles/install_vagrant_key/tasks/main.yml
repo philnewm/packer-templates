@@ -1,7 +1,7 @@
 ---
 - name: Install python3-selinux
-  apt:
-    name: python3-selinux
+  ansible.builtin.package:
+    name: "{{ python_selinux[ansible_os_family] }}"
     state: present
 
 - name: Install Vagrant public SSH key

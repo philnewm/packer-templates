@@ -2,7 +2,5 @@
 
 - name: Install NFS
   ansible.builtin.package:
-    name:
-      # - nfs-utils
-      - nfs-common
+    name: "{{ nfs_package[ansible_os_family] }}"
     state: present

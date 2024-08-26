@@ -1,2 +1,59 @@
 ---
+
 cleanup_ssh_host_keys: true
+
+package_manager:
+  "RedHat": dnf
+  "Debian": apt
+old_kernels:
+  "RedHat": "dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)"
+  "Debian": "apt-get autoremove --purge"
+package_cache:
+  "RedHat": dnf clean all
+  "Debian": apt-get clean all
+auto_install_files:
+  "RedHat":
+    - "/root/anaconda-ks.cfg"
+    - "/root/original-ks.cfg"
+  "Debian":
+    - "/var/log/installer/autoinstall-user-data"
+log_files:
+  "RedHat":
+    - /etc/machine-id
+    - /etc/resolv.conf
+    - /var/log/audit/audit.log
+    - /var/log/wtmp
+    - /var/log/lastlog
+    - /var/log/btmp
+    - /var/log/cron
+    - /var/log/maillog
+    - /var/log/messages
+    - /var/log/secure
+    - /var/log/spooler
+  "Debian":
+    - /etc/machine-id
+    - /etc/resolv.conf
+    - /var/log/syslog
+    - /var/log/auth.log
+    - /var/log/daemon.log
+    - /var/log/kern.log
+    - /var/log/mail.log
+    - /var/log/user.log
+    - /var/log/apt/history.log
+    - /var/log/apt/term.log
+log_directories:
+  "RedHat":
+    - /var/log/anaconda
+    - /var/log/qemu-ga
+    - /var/log/tuned
+    - /var/lib/cloud
+    - /etc/hostname
+    - /etc/machine-info
+    - /var/lib/systemd/credential.secret
+  "Debian":
+    - /var/log/apt
+    - /var/log/journal
+    - /var/lib/cloud
+    - /etc/hostname
+    - /etc/machine-id
+...

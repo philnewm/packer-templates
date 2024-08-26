@@ -1,0 +1,7 @@
+---
+
+python_selinux:
+  "RedHat": "python3-libselinux"
+  "Debian": "python3-selinux"
+
+...
