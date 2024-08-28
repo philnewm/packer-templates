@@ -150,8 +150,11 @@
   changed_when: result.rc == 0
 
 - name: Clear shell history
-  ansible.builtin.command:
-    cmd: history -c
+  ansible.builtin.shell: |
+    history -c
+    history -w
+  args:
+    executable: /bin/bash
   register: result
   changed_when: result.rc == 0
 

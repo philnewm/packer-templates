@@ -43,39 +43,19 @@ autoinstall:
         id: "root-partition"
         device: "disk0"
         size: -1
+  package_update: true
+  package_upgrade: true
   packages:
-    - "openssh-server"
-    - "cryptsetup"
-    - "build-essential"
-    - "libssl-dev"
-    - "libreadline-dev"
-    - "zlib1g-dev"
-    - "linux-source"
-    - "dkms"
-    - "nfs-common"
-    - "python3-pip"
-    - "bind9-utils"
-    - "net-tools"
-    - "cloud-init"
-    - "apt-transport-https"
-    - "ca-certificates"
-    - "curl"
-    - "gnupg"
-    - "lsb-release"
-    - "vim-nox"
-    - "socat"
-    - "lvm2"
-    - "telnet"
-    - "tcpdump"
-    - "linux-libc-dev"
-    - "gcc"
-    - "cpp"
-    - "libmpc3"
-    - "libmpfr6"
-    - "zlib1g-dev"
-    - "bzip2"
-    - "bash-completion"
-    - "conntrack"
+    - bzip2
+    - tar
+    - grub-pc
+    - open-vm-tools
+  runcmd:
+    - tasksel install server
+    - apt-get -y remove biosdevname dnf-plugin-spacewalk dracut-config-rescue iprutils
+    - apt-get -y remove '*-firmware' '*langpack-*' plymouth rh*
+    - apt-get -y autoremove
+    - update-initramfs -u
   late-commands:
     - "curtin in-target --target=/target -- rm -rf /var/lib/apt/lists"
     - "curtin in-target --target=/target -- apt-get update"

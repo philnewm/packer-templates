@@ -7,3 +7,4 @@ ansible/roles/philnewm.vbox_guest/
 .vscode
 Vagrantfile
 *.vdi
+output_vbox
