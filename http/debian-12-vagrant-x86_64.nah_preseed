@@ -1,0 +1,72 @@
+### Localization
+d-i debian-installer/language string en
+d-i debian-installer/country string DE
+d-i debian-installer/locale string en_US.UTF-8
+d-i keyboard-configuration/xkb-keymap select us
+
+### Clock and time zone setup
+d-i clock-setup/utc boolean true
+d-i time/zone string GMT+2
+d-i clock-setup/ntp boolean false
+
+### Network configuration
+d-i netcfg/choose_interface select auto
+d-i netcfg/wireless_wep string
+d-i netcfg/get_hostname string localhost.localdomain
+d-i netcfg/get_domain string
+
+# create the vagrant account, password = vagrant as per https://www.vagrantup.com/docs/boxes/base
+d-i passwd/user-fullname string vagrant
+d-i passwd/user-uid string 1000
+d-i passwd/username string vagrant
+d-i passwd/user-password password vagrant
+d-i passwd/user-password-again password vagrant
+d-i user-setup/allow-password-weak boolean true
+d-i user-setup/encrypt-home boolean false
+d-i passwd/root-login boolean false
+
+### Mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string ftp.de.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+# Package Setup
+d-i hw-detect/load_firmware boolean false
+d-i hw-detect/load_media boolean false
+apt-cdrom-setup apt-setup/cdrom/set-first boolean false
+d-i apt-setup/contrib boolean true
+d-i apt-setup/non-free boolean true
+d-i pkgsel/include string sudo, unattended-upgrades
+popularity-contest popularity-contest/participate boolean false
+# tasksel tasksel/first multiselect print-server, ssh-server, standard
+tasksel tasksel/first standard
+d-i pkgsel/include string openssh-server build-essential
+d-i pkgsel/install-language-support boolean false
+
+### Partitioning
+d-i partman-auto/method string lvm
+d-i partman-auto-lvm/guided_size string max
+d-i partman-auto/choose_recipe select home
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+### Boot loader installation
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/bootdev string /dev/sda
+
+### Finishing up the installation
+d-i finish-install/keep-consoles boolean true
+d-i finish-install/reboot_in_progress note
+
+### Inject the vagrant ssh key
+d-i preseed/late_command string \
+mkdir -p /target/home/vagrant/.ssh && \
+chown -R 1000:1000 /target/home/vagrant/.ssh && \
+echo "vagrant        ALL=(ALL)       NOPASSWD: ALL" >> /target/etc/sudoers.d/vagrant
