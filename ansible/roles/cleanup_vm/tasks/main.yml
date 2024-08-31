@@ -1,7 +1,7 @@
 ---
 
 - name: Remove old kernels
-  ansible.builtin.command:
+  ansible.builtin.shell:
     cmd: "{{ old_kernels[ansible_os_family] }}"
   register: result
   changed_when: result.rc == 0
