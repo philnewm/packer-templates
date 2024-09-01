@@ -67,9 +67,9 @@ d-i user-setup/encrypt-home boolean false
 ### Package selection
 popularity-contest popularity-contest/participate boolean false
 apt-cdrom-setup apt-setup/cdrom/set-first boolean false
-d-i pkgsel/run_tasksel standard
+d-i pkgsel/run_tasksel boolean false
 d-i pkgsel/install-recommends boolean false
-d-i pkgsel/include string openssh-server build-essential python
+d-i pkgsel/include string openssh-server build-essential python3
 d-i pkgsel/install-language-support boolean false
 d-i pkgsel/upgrade select full-upgrade
 
