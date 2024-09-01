@@ -8,7 +8,7 @@ autoinstall:
   early-commands:
     # We need to disable ssh during the autoinstall phase, or Packer will try to connect.
     # After autoinstall, the VM will reboot, ssh will start up, and then Packer can continue.
-    - "systemctl stop sshd"
+    # - "systemctl stop sshd"
   apt:
     geoip: true
     preserve_sources_list: false
@@ -20,7 +20,8 @@ autoinstall:
     username: "vagrant"
     # This password is "vagrant", use the command `openssl passwd -6` to generate a new hash if needed.
     # This needs to match the "ssh_password" field in packer.json
-    password: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
+    # password: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
+    plain_text_passwd: "vagrant"
   ssh:
     allow-pw: true
     install-server: true
@@ -67,4 +68,4 @@ autoinstall:
     - "rm -rf /var/lib/apt/lists/*"
     - "echo 'Defaults:vagrant !requiretty' > /target/etc/sudoers.d/vagrant"
     - "echo 'vagrant ALL=(ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/vagrant"
-    - "chmod 440 /target/etc/sudoers.d/vagrant"
+    - # "chmod 440 /target/etc/sudoers.d/vagrant"

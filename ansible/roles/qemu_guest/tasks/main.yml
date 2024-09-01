@@ -1,4 +1,5 @@
 ---
+
 - name: Install qemu-guest-agent and rsync
   apt:
     name:

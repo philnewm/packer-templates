@@ -36,8 +36,8 @@ locals {
 }
 
 locals {
-  debian_iso_url_12_x86_64       = "https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso"
-  debian_iso_checksum_12_x86_64  = "file:https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-cd/SHA512SUMS"
+  debian_iso_url_12_x86_64       = "https://cdimage.debian.org/cdimage/release/12.7.0/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso"
+  debian_iso_checksum_12_x86_64  = "file:https://cdimage.debian.org/cdimage/release/12.7.0/amd64/iso-cd/SHA512SUMS"
 }
 
 # Common
@@ -240,7 +240,7 @@ local "debian_vagrant_boot_command_12_x86_64" {
     "initrd=/install.amd/initrd.gz ",
     "auto=true ",
     "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-12-vagrant-x86_64.preseed ",
-    "hostname=doain.localdomain ",
+    "hostname=domain.localdomain ",
     "domain='' ",
     "interface=auto ",
     "vga=788 noprompt quiet --<enter>"

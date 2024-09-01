@@ -34,8 +34,8 @@ source "qemu" "debian-12" {
 }
 
 source "virtualbox-iso" "debian-12" {
-  iso_url            = local.debian_iso_url_12_x86_64
-  iso_checksum       = local.debian_iso_checksum_12_x86_64
+  iso_url              = local.debian_iso_url_12_x86_64
+  iso_checksum         = local.debian_iso_checksum_12_x86_64
   http_directory       = var.http_directory
   shutdown_command     = var.vagrant_shutdown_command
   ssh_username         = var.vagrant_ssh_username

@@ -6,7 +6,7 @@ d-i keyboard-configuration/xkb-keymap select us
 
 ### Clock and time zone setup
 d-i clock-setup/utc boolean true
-d-i time/zone string GMT+2
+d-i time/zone string UTC GMT+2
 d-i clock-setup/ntp boolean false
 
 ### Network configuration
@@ -43,6 +43,7 @@ popularity-contest popularity-contest/participate boolean false
 tasksel tasksel/first standard
 d-i pkgsel/include string openssh-server build-essential
 d-i pkgsel/install-language-support boolean false
+d-i pkgsel/upgrade select full-upgrade
 
 ### Partitioning
 d-i partman-auto/method string lvm

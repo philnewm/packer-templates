@@ -1,0 +1,7 @@
+# handlers file for cleanup_vm
+
+- name: Restart SSH service
+  become: true
+  ansible.builtin.service:
+    name: sshd
+    state: restarted

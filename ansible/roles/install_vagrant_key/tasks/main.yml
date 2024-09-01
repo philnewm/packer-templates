@@ -1,5 +1,6 @@
 ---
 - name: Install python3-selinux
+  become: true
   ansible.builtin.package:
     name: "{{ python_selinux[ansible_os_family] }}"
     state: present

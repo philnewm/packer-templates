@@ -50,7 +50,6 @@ source "virtualbox-iso" "ubuntu-2204" {
   headless             = var.headless
   hard_drive_interface = "sata"
   iso_interface        = "sata"
-  output_directory     = "output_vbox"
   vboxmanage           = [["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]]
   vboxmanage_post = [
     ["modifyvm", "{{.Name}}", "--memory", var.post_memory],

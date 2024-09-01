@@ -54,6 +54,21 @@
         state: absent
       loop: "{{ host_keys.files }}"
 
+    # INFO RedHat based systems seem to regenerate their ssh host keys automatically while debian based systems don't
+    - name: Generate SSH host keys on Debian-based systems
+      become: true
+      when: ansible_distribution == "Debian"
+      ansible.builtin.command: ssh-keygen -A
+      changed_when: false
+      notify: Restart SSH service
+
+    - name: Restart SSH service
+      become: true
+      when: ansible_distribution == "Debian"
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
+
 - name: Remove auto-install files
   loop: "{{ auto_install_files[ansible_os_family] }}"
   ansible.builtin.file:

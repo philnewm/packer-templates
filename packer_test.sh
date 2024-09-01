@@ -1,22 +1,16 @@
-# install virtualbox
-# install packer
-# install vagrant
+distro=$1
+version=$2
 
 # Cleanup exisiting boxes
+vagrant destroy -f
 rm *.box || true
 rm -Rf output-* || true
-
-# Remove existing vagrant boxes
-vagrant destroy -f
-vagrant box prune
-vagrant box list | awk '{print $1}' | xargs -n 1 vagrant box remove -f
+rm Vagrantfile || true
 rm -Rf .vagrant/
-rm Vagrantfile
 
 # Build vbox image
-packer build -on-error=ask -only=virtualbox-iso.almalinux-9 .
-vagrant box remove alma9
-vagrant box add --name alma9 AlmaLinux-9-Vagrant-virtualbox-9.4.x86_64.box
-
-vagrant init alma9
+packer build -on-error=ask -only=virtualbox-iso.$distro-$version .
+vagrant box remove $distro$version
+vagrant box add --name $distro$version $distro-Vagrant-virtualbox-$version.x86_64.box
+vagrant init $distro$version
 vagrant up

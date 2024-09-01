@@ -1,3 +1,4 @@
+# reference file https://www.debian.org/releases/stable/example-preseed.txt
 # Preseeding only locale sets language, country and locale.
 d-i debian-installer/locale string en_US
 
@@ -38,6 +39,12 @@ d-i hw-detect/load_media boolean false
 d-i partman-auto/method string lvm
 
 # This makes partman automatically partition without confirmation.
+d-i partman-auto/method string lvm
+d-i partman-auto-lvm/guided_size string max
+d-i partman-auto/choose_recipe select home
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+d-i partman-lvm/confirm boolean true
 d-i partman-md/confirm boolean true
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
@@ -60,14 +67,18 @@ d-i user-setup/encrypt-home boolean false
 ### Package selection
 popularity-contest popularity-contest/participate boolean false
 apt-cdrom-setup apt-setup/cdrom/set-first boolean false
-tasksel tasksel/first ""
+d-i pkgsel/run_tasksel standard
 d-i pkgsel/install-recommends boolean false
-d-i pkgsel/include string openssh-server build-essential
+d-i pkgsel/include string openssh-server build-essential python
 d-i pkgsel/install-language-support boolean false
+d-i pkgsel/upgrade select full-upgrade
+
+### Finishing up the installation
+d-i finish-install/keep-consoles boolean true
+d-i finish-install/reboot_in_progress note
 
 # disable automatic package updates
 d-i pkgsel/update-policy select none
-d-i pkgsel/upgrade select full-upgrade
 
 ### Inject the vagrant ssh key
 d-i preseed/late_command string \

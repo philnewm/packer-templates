@@ -1,6 +1,4 @@
 # Short Term
-* Research packer configs for Debian12 and ubuntu22.04
-* Research [packer basics](https://developer.hashicorp.com/packer/guides/hcl/variables)
 * Research [packer CI/CD integration](https://developer.hashicorp.com/packer/guides/packer-on-cicd/build-virtualbox-image)
 
 
