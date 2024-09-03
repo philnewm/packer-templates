@@ -9,31 +9,6 @@ autoinstall:
     # We need to disable ssh during the autoinstall phase, or Packer will try to connect.
     # After autoinstall, the VM will reboot, ssh will start up, and then Packer can continue.
     - "systemctl stop sshd"
-  apt:
-    disable_components: []
-    fallback: abort
-    geoip: true
-    mirror-selection:
-      primary:
-      - country-mirror
-      - arches: &id001
-        - amd64
-        - i386
-        uri: http://archive.ubuntu.com/ubuntu/
-      - arches: &id002
-        - s390x
-        - arm64
-        - armhf
-        - powerpc
-        - ppc64el
-        - riscv64
-        uri: http://ports.ubuntu.com/ubuntu-ports
-    preserve_sources_list: false
-    security:
-    - arches: *id001
-      uri: http://security.ubuntu.com/ubuntu/
-    - arches: *id002
-      uri: http://ports.ubuntu.com/ubuntu-ports
   codecs:
     install: false
   drivers:
@@ -44,7 +19,6 @@ autoinstall:
     # This password is "vagrant", use the command `openssl passwd -6` to generate a new hash if needed.
     # This needs to match the "ssh_password" field in packer.json
     password: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
-    # plain_text_passwd: "vagrant"
     realname: vagrant
   kernel:
     package: linux-generic
@@ -52,37 +26,23 @@ autoinstall:
     layout: "us"
     toggle: null
   locale: "en_US.UTF-8"
+  ssh:
+    install-server: true
+    allow-pw: true
   network:
+    version: 2
     ethernets:
       enp0s3:
         dhcp4: true
-    version: 2
-  oem:
-    install: auto
-  source:
-    id: ubuntu-server
-    search_drivers: false
-  ssh:
-    allow-pw: true
-    install-server: true
+        dhcp6: false
+        match:
+          name: enp0s3
+        set-name: enp0s3
+  # sudo ip link set enp0s3 up works manually
+  # sudo dhclient enp0s3 
   storage:
     layout:
-      name: "direct"
-    config:
-      - type: "disk"
-        id: "disk0"
-        match:
-          size: "largest"
-      - type: "partition"
-        id: "boot-partition"
-        device: "disk0"
-        size: "500M"
-      - type: "partition"
-        id: "root-partition"
-        device: "disk0"
-        size: -1
-  package_update: true
-  package_upgrade: true
+      name: direct
   packages:
     - bzip2
     - tar
@@ -98,6 +58,7 @@ autoinstall:
   late-commands:
     - "curtin in-target --target=/target -- rm -rf /var/lib/apt/lists"
     - "curtin in-target --target=/target -- apt-get update"
+    - "curtin in-target --target=/target -- apt-get -y upgrade"
     - "curtin in-target --target=/target -- apt-get -y dist-upgrade"
     - "curtin in-target --target=/target -- apt-get -y autoremove"
     - "curtin in-target --target=/target -- apt-get autoclean"
