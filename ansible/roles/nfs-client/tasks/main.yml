@@ -4,3 +4,34 @@
   ansible.builtin.package:
     name: "{{ nfs_package[ansible_os_family] }}"
     state: present
+
+- name: Run Ubuntu network setup
+  when: ansible_distribution == 'Ubuntu'
+  block:
+    - name: Setup network
+      when: ansible_distribution == 'Ubuntu'
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/network-setup.service
+        content: |
+          [Unit]
+          Description=Bring up enp0s3 interface
+          After=network.target
+
+          [Service]
+          Type=oneshot
+          ExecStart=/sbin/ip link set enp0s3 up
+          ExecStart=/sbin/dhclient enp0s3
+          RemainAfterExit=yes
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: "0644"
+
+    - name: Enable the network-setup service to start at boot
+      become: true
+      ansible.builtin.systemd_service:
+        name: network-setup
+        enabled: true
+        daemon_reload: true
+        state: started

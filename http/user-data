@@ -31,6 +31,7 @@ autoinstall:
     allow-pw: true
   network:
     version: 2
+    renderer: networkd
     ethernets:
       enp0s3:
         dhcp4: true
@@ -39,7 +40,7 @@ autoinstall:
           name: enp0s3
         set-name: enp0s3
   # sudo ip link set enp0s3 up works manually
-  # sudo dhclient enp0s3 
+  # sudo dhclient enp0s3
   storage:
     layout:
       name: direct
@@ -50,6 +51,7 @@ autoinstall:
     - grub-pc
     - open-vm-tools
   runcmd:
+    - sudo netplan apply
     - tasksel install server
     - apt-get -y remove biosdevname dnf-plugin-spacewalk dracut-config-rescue iprutils
     - apt-get -y remove '*-firmware' '*langpack-*' plymouth rh*
