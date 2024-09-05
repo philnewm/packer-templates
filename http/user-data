@@ -35,16 +35,14 @@ autoinstall:
     ethernets:
       enp0s3:
         dhcp4: true
-        dhcp6: false
-        match:
-          name: enp0s3
-        set-name: enp0s3
+        optional: true
   # sudo ip link set enp0s3 up works manually
   # sudo dhclient enp0s3
   storage:
     layout:
       name: direct
   packages:
+    - network-manager
     - bzip2
     - tar
     - python3
