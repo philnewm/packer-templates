@@ -6,32 +6,42 @@
     state: present
 
 - name: Run Ubuntu network setup
-  when: false  # ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Ubuntu'
   block:
+    - name: Remove initial netplan config
+      become: true
+      ansible.builtin.file:
+        path: /etc/netplan/00-installer-config.yaml
+        state: absent
+
     - name: Setup network
-      when: ansible_distribution == 'Ubuntu'
       become: true
       ansible.builtin.copy:
-        dest: /etc/netplan/00-installer-config.yaml
+        dest: /etc/netplan/00-install-config.yaml
         content: |
-          # update default netplan to NetworkManager
-          [Unit]
-          Description=Bring up enp0s3 interface
-          After=network.target
+          network:
+            version: 2
+            renderer: NetworkManager
+            ethernets:
+              enp0s3:
+                dhcp4: true
+                optional: false
+        mode: "0600"
 
-          [Service]
-          Type=oneshot
-          ExecStart=/sbin/ip link set enp0s3 up
-          ExecStart=/sbin/dhclient enp0s3
-          RemainAfterExit=yes
+    - name: Apply netplan config
+      become: true
+      ansible.builtin.command:
+        cmd: |
+          netplan generate
+          netplan apply
+      register: result
+      changed_when: result.rc == 0
 
-          [Install]
-          WantedBy=multi-user.target
-        mode: "0644"
-
-    - name: Enable the network-setup service to start at boot
+    - name: Disable networkd-wait-online
       become: true
       ansible.builtin.systemd_service:
         name: systemd-networkd-wait-online
         enabled: false
         state: stopped
+
+...
