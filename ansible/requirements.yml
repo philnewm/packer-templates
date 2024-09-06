@@ -6,7 +6,7 @@ collections:
   - community.general
 
 roles:
-  - philnewm.vbox_guest
+  # - philnewm.vbox_guest
   - philnewm.gnome
 
 ...
