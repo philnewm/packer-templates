@@ -1,5 +1,7 @@
 # Short Term
-* test redhat ndistro kernel-headers + kernel-dvel version after dnf udpate
+* fix bidirectional clipboard for Ubuntu22.04 an debian12 box
+* test bidirectional clipboard for redhat absed systems
+* test redhat distro kernel-headers + kernel-devel version after dnf udpate
 * move ubuntu networking fix out of nfs role
 * check for virtualbox guest additions version using `VBoxControl --version`
 * Research [packer CI/CD integration](https://developer.hashicorp.com/packer/guides/packer-on-cicd/build-virtualbox-image)
