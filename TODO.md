@@ -1,4 +1,5 @@
 # Short Term
+* Add zstd to debian12 box for slightly faster package install process
 * fix bidirectional clipboard for Ubuntu22.04 an debian12 box
 * test bidirectional clipboard for redhat absed systems
 * test redhat distro kernel-headers + kernel-devel version after dnf udpate
