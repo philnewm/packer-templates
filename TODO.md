@@ -1,4 +1,5 @@
 # Short Term
+* Move reboots to handlers for one reboot at the end
 * Add zstd to debian12 box for slightly faster package install process
 * fix bidirectional clipboard for Ubuntu22.04 an debian12 box
 * test bidirectional clipboard for redhat absed systems
