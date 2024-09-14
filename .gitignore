@@ -1,8 +1,9 @@
 *.box
 ansible/collections/
 .vagrant
-ansible/roles/philnewm.gnome
+ansible/roles/philnewm.gnome/
 ansible/roles/philnewm.vbox_guest/
+ansible/roles/philnewm.vagrant_box_prep/
 
 .vscode
 Vagrantfile

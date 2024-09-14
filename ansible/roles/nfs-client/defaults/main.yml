@@ -1,3 +1,0 @@
-nfs_package:
-  "RedHat": nfs-utils
-  "Debian": nfs-common

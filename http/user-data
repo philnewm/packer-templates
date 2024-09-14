@@ -30,14 +30,11 @@ autoinstall:
     install-server: true
     allow-pw: true
   network:
-    version: 2
-    renderer: networkd
     ethernets:
       enp0s3:
-        dhcp4: true
-        optional: true
-  # sudo ip link set enp0s3 up works manually
-  # sudo dhclient enp0s3
+          dhcp4: true
+          dhcp6: true
+    version: 2
   storage:
     layout:
       name: direct

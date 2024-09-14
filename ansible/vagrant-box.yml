@@ -6,6 +6,7 @@
 - name: "AlmaLinux Vagrant Box"
   hosts: default
   become: true
+
   collections:
     - almalinux.ci
 
@@ -17,8 +18,8 @@
       when: packer_provider == "virtualbox-iso"
     - role: qemu_guest
       when: packer_provider == "qemu"
-    - install_vagrant_key
-    - nfs-client
+    - role: philnewm.vagrant_box_prep
+      vagrant_box_prep_state: "present"
     # - role: philnewm.gnome
     #   gnome_setup_state: present
     #   gnome_enable_reboot: false
