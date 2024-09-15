@@ -79,7 +79,7 @@ jobs:
       # TODO RnD dynamic way to do this - ideally inside the packer vars
       - name: Set qemu_binary path
         run: |
-          export PKR_VAR_qemu_path="/usr/bin/qemu-system-x86_64"
+          export PKR_VAR_qemu_binary="/usr/bin/qemu-system-x86_64"
 
       - name: Run packer build
         run: |
