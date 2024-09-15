@@ -3,19 +3,19 @@ packer {
   required_plugins {
     ansible = {
       version = ">= 1.1.0"
-      source  = "github.com/hashicorp/packer-plugin-ansible"
+      source  = "github.com/hashicorp/ansible"
     }
     qemu = {
       version = ">= 1.0.7"
-      source  = "github.com/hashicorp/packer-plugin-qemu"
+      source  = "github.com/hashicorp/qemu"
     }
     vagrant = {
       version = ">= 1.1.0"
-      source  = "github.com/hashicorp/packer-plugin-vagrant"
+      source  = "github.com/hashicorp/vagrant"
     }
     virtualbox = {
       version = ">= 1.0.3"
-      source  = "github.com/hashicorp/packer-plugin-virtualbox"
+      source  = "github.com/hashicorp/virtualbox"
     }
   }
 }
