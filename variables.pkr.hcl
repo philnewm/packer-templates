@@ -112,6 +112,10 @@ variable "qemu_binary" {
   default = "/usr/libexec/qemu-kvm"
 }
 
+locals {
+  qemu_binary = "{{ source /etc/os-release; if  `debian` (env `ID_LIKE`) }} /usr/bin/qemu-system-x86_64 {{ end }}"
+}
+
 variable "ovmf_code" {
   description = "Path of OVMF code file"
 
