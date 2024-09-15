@@ -1,6 +1,6 @@
 ---
 
-name: alma9-vbox-ci
+name: ubuntu2204-vbox-ci
 
 on:
   push:
