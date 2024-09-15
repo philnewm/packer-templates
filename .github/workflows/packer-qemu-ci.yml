@@ -65,9 +65,14 @@ jobs:
       - name: Install qemu
         run: |
           sudo apt-get update
-          sudo apt-get install -y qemu qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+          sudo apt-get install rsync
+          sudo apt-get install -y qemu qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils libvirt-dev
           sudo systemctl enable --now libvirtd
           sudo usermod -aG libvirt $(whoami)
+
+      - name: Install libvirt vagrant plugin
+        run: |
+          vagrant plugin install vagrant-libvirt
 
       - name: Setup Packer
         uses: hashicorp/setup-packer@v3.1.0
@@ -88,10 +93,10 @@ jobs:
 
       - name: Test to run vagrant box
         run: |
-          vagrant box add --name alma9 AlmaLinux-9-Vagrant-qemu-9.4.x86_64.box
+          vagrant box add --name alma9 --provider=libvirt AlmaLinux-9-Vagrant-qemu-9.4.x86_64.box
           rm Vagrantfile
           vagrant init alma9
-          vagrant up
+          vagrant up --provider=libvirt
 
       - name: Show running box
         run: |
