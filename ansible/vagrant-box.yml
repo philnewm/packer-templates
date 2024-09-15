@@ -20,9 +20,9 @@
       when: packer_provider == "qemu"
     - role: philnewm.vagrant_box_prep
       vagrant_box_prep_state: "present"
-    # - role: philnewm.gnome
-    #   gnome_setup_state: present
-    #   gnome_enable_reboot: false
+    - role: philnewm.gnome
+      gnome_setup_state: present
+      gnome_enable_reboot: true
     - role: cleanup_vm
       cleanup_ssh_host_keys: "{{ packer_provider != 'hyperv-iso' }}"
 
