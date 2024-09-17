@@ -5,26 +5,29 @@
 
 - name: "AlmaLinux Vagrant Box"
   hosts: default
-  become: true
 
   collections:
     - almalinux.ci
 
   roles:
     - role: unified_boot
+      become: true
       when: is_unified_boot is defined
     - role: philnewm.vbox_guest
+      become: true
       vbox_guest_state: "present"
       when: packer_provider == "virtualbox-iso"
     - role: qemu_guest
+      become: true
       when: packer_provider == "qemu"
     - role: philnewm.vagrant_box_prep
+      become: true
       vagrant_box_prep_state: "present"
     - role: philnewm.gnome
-      become_user: vagrant
       gnome_setup_state: present
-      gnome_enable_reboot: true
+      gnome_enable_reboot: false
     - role: cleanup_vm
+      become: true
       cleanup_ssh_host_keys: "{{ packer_provider != 'hyperv-iso' }}"
 
 ...

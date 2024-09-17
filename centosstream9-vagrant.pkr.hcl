@@ -62,7 +62,8 @@ source "virtualbox-iso" "centosstream-9" {
     ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga"],
     ["modifyvm", "{{.Name}}", "--vram", "256"],
     ["modifyvm", "{{.Name}}", "--accelerate-3d", "off"],
-    ["modifyvm", "{{.Name}}", "--accelerate-2d-video", "on"]
+    ["modifyvm", "{{.Name}}", "--accelerate-2d-video", "on"],
+    ["modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional"]
   ]
 }
 
