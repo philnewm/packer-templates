@@ -21,6 +21,7 @@
     - role: philnewm.vagrant_box_prep
       vagrant_box_prep_state: "present"
     - role: philnewm.gnome
+      become_user: vagrant
       gnome_setup_state: present
       gnome_enable_reboot: true
     - role: cleanup_vm
