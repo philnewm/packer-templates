@@ -8,7 +8,7 @@ collections:
 roles:
   - philnewm.vagrant_box_prep
   - philnewm.gnome
-  - philnewm.vbox_guest
+  # - philnewm.vbox_guest
 
 
 ...

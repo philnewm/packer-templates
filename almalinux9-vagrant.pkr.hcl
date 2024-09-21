@@ -33,11 +33,16 @@ source "qemu" "almalinux-9" {
   output_directory   = "output_qemu"
 }
 
+variable "box_name" {
+  default = "AlmaLinux"
+}
+
 source "virtualbox-iso" "almalinux-9" {
   iso_url              = local.alma_iso_url_9_x86_64
   iso_checksum         = local.alma_iso_checksum_9_x86_64
   http_directory       = var.http_directory
   shutdown_command     = var.vagrant_shutdown_command
+  vm_name              = var.box_name
   ssh_username         = var.vagrant_ssh_username
   ssh_password         = var.vagrant_ssh_password
   ssh_timeout          = var.ssh_timeout
@@ -49,6 +54,7 @@ source "virtualbox-iso" "almalinux-9" {
   cpus                 = var.cpus
   memory               = var.memory
   headless             = var.headless
+  gfx_efi_resolution   = "1920x1080"
   hard_drive_interface = "sata"
   iso_interface        = "sata"
   output_directory     = "output_vbox"
@@ -61,7 +67,11 @@ source "virtualbox-iso" "almalinux-9" {
     ["modifyvm", "{{.Name}}", "--vram", "256"],
     ["modifyvm", "{{.Name}}", "--accelerate-3d", "off"],
     ["modifyvm", "{{.Name}}", "--accelerate-2d-video", "on"],
-    ["modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional"]
+    ["modifyvm", "{{.Name}}", "--defaultfrontend", "gui"],
+    ["modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional"],
+    ["modifyvm", "{{.Name}}", "--draganddrop", "bidirectional"],
+    # ["modifyhd", "{{.DiskPath}}", "--property", "SSD=on"],
+    ["storagectl", "{{.Name}}", "--name", "SATA Controller", "--hostiocache", "on"]
   ]
 }
 
@@ -95,7 +105,9 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "AlmaLinux-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
+      output            = "${var.box_name}-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
+      provider_override = "virtualbox"
       only = ["virtualbox-iso.almalinux-9"]
     }
 

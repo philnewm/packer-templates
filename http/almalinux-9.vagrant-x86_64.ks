@@ -11,7 +11,7 @@ firstboot --disabled
 lang EN.UTF-8
 keyboard us
 timezone UTC --utc
-network --bootproto=dhcp
+network --device=link --bootproto=dhcp --hostname="alma9"
 firewall --disabled
 services --enabled=sshd
 selinux --enforcing
@@ -46,6 +46,7 @@ bzip2
 dracut-config-generic
 grub2-pc
 tar
+nano
 usermode
 -biosdevname
 -dnf-plugin-spacewalk
@@ -67,6 +68,10 @@ usermode
 %post --erroronfail
 
 grub2-install --target=i386-pc /dev/sda
+
+# Set the hostname
+touch /etc/hostname
+echo "almalinux9" > /etc/hostname
 
 # allow vagrant user to run everything without a password
 echo "vagrant     ALL=(ALL)     NOPASSWD: ALL" >> /etc/sudoers.d/vagrant

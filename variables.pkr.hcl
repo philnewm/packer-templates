@@ -240,7 +240,7 @@ local "debian_vagrant_boot_command_12_x86_64" {
     "initrd=/install.amd/initrd.gz ",
     "auto=true ",
     "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-12-vagrant-x86_64.preseed ",
-    "hostname=domain.localdomain ",
+    "hostname=debian12 ",
     "domain='' ",
     "interface=auto ",
     "vga=788 noprompt quiet --<enter>"

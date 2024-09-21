@@ -47,13 +47,11 @@ log_directories:
     - /var/log/qemu-ga
     - /var/log/tuned
     - /var/lib/cloud
-    - /etc/hostname
     - /etc/machine-info
     - /var/lib/systemd/credential.secret
   "Debian":
     - /var/log/apt
     - /var/log/journal
     - /var/lib/cloud
-    - /etc/hostname
     - /etc/machine-id
 ...
