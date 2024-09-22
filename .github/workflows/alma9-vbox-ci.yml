@@ -44,7 +44,6 @@ jobs:
       - name: Update system
         run: |
           sudo apt-get update -y
-          sudo apt install virtualbox-dkms --reinstall
 
       - name: Install VirtualBox 7.0.14
         run: |
@@ -53,10 +52,19 @@ jobs:
           sudo apt-get update
           wget https://download.virtualbox.org/virtualbox/7.0.14/virtualbox-7.0_7.0.14-161095~Ubuntu~$(lsb_release -cs)_amd64.deb
           sudo apt-get install -y linux-headers-$(uname -r) dkms
+          sudo modprobe vboxdrv
+          sudo modprobe vboxnetflt
+          sudo modprobe vboxnetadp
+          sudo modprobe vboxpci
+          sudo /usr/lib/virtualbox/vboxdrv.sh setup
           sudo apt-get install ./virtualbox-7.0_7.0.14-161095~Ubuntu~$(lsb_release -cs)_amd64.deb
 
       - name: Verify VirtualBox installation
         run: VBoxManage --version
+
+      - name: Show vbox log
+        run: |
+          cat /var/log/vbox-setup.log
 
       - name: Install vagrant
         run: |
