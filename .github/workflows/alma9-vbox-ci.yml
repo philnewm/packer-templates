@@ -44,6 +44,7 @@ jobs:
       - name: Update system
         run: |
           sudo apt-get update -y
+          sudo apt install virtualbox-dkms --reinstall
 
       - name: Install VirtualBox 7.0.14
         run: |
