@@ -52,7 +52,7 @@ jobs:
           sudo apt-get update
           wget https://download.virtualbox.org/virtualbox/7.1.0/virtualbox-7.1_7.1.0-164728~Ubuntu~$(lsb_release -cs)_amd64.deb
           sudo apt-get install -y linux-headers-$(uname -r) dkms build-essential
-          sudo apt-get install ./virtualbox-7.0_7.1.0-164728~Ubuntu~$(lsb_release -cs)_amd64.deb
+          sudo apt-get install ./virtualbox-7.1_7.1.0-164728~Ubuntu~$(lsb_release -cs)_amd64.deb
 
       - name: Verify VirtualBox installation
         run: VBoxManage --version
