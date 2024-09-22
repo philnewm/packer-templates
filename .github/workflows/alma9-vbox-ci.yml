@@ -54,12 +54,12 @@ jobs:
           sudo apt-get install -y linux-headers-$(uname -r) dkms build-essential
           sudo apt-get install ./virtualbox-7.0_7.0.14-161095~Ubuntu~$(lsb_release -cs)_amd64.deb
 
-      - name: Run kernel modules
-        run: |
-          sudo modprobe vboxdrv
-          sudo modprobe vboxnetflt
-          sudo modprobe vboxnetadp
-          sudo modprobe vboxpci
+      # - name: Run kernel modules
+      #   run: |
+      #     sudo modprobe vboxdrv
+      #     sudo modprobe vboxnetflt
+      #     sudo modprobe vboxnetadp
+      #     sudo modprobe vboxpci
 
       - name: Verify VirtualBox installation
         run: VBoxManage --version
