@@ -1,6 +1,6 @@
 ---
 
-name: rocky-vbox-ci
+name: rocky9-vbox-ci
 
 on:
   push:
@@ -21,7 +21,7 @@ on:
 env:
   build_source_name: rocky-9
   box_name: rocky9
-  box_file: AlmaLinux-9.4-Vagrant-virtualbox.x86_64.box
+  box_file: Rocky-9.4-Vagrant-virtualbox.x86_64.box
 
 permissions:
   contents: read

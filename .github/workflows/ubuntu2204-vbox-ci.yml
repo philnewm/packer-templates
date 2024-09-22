@@ -18,6 +18,11 @@ on:
         - '**/*.md'
         - .gitignore
 
+env:
+  build_source_name: ubuntu-2204
+  box_name: ubuntu2204
+  box_file: Ubuntu-2204-Vagrant-virtualbox.x86_64.box
+
 permissions:
   contents: read
 
@@ -76,13 +81,20 @@ jobs:
 
       - name: Test to run vagrant box
         run: |
-          vagrant box add --name ubuntu2204 Ubuntu-2204-Vagrant-virtualbox-9.4.x86_64.box
-          vagrant init ubuntu2204
+          vagrant box add --name ${{ env.box_name }} ${{ env.box_file }}
+          vagrant init ${{ env.box_name }}
           vagrant up
 
       - name: Show running box
         run: |
           vagrant box list
           vagrant global-status
+
+      - name: Upload vagrant box file
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ env.box_name }}-vagrant-box"
+          path: |
+            ${{ env.box_file }}
 
 ...
