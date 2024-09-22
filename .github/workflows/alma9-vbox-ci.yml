@@ -79,4 +79,5 @@
           run: |
             vagrant box list
             vagrant global-status
-  ...
+
+...
