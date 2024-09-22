@@ -76,6 +76,8 @@ jobs:
 
       - name: Run packer build
         run: |
+          export USER=$(whoami)
+          export LOGNAME=$(whoami)
           packer init versions.pkr.hcl
           packer build -only=virtualbox-iso.${{ env.build_source_name }} .
 

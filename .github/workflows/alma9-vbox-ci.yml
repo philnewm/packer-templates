@@ -78,10 +78,6 @@ jobs:
       - name: Verify packer installation
         run: packer --version
 
-      - name: show id
-        run: |
-          id
-
       - name: Run packer build
         run: |
           export USER=$(whoami)
