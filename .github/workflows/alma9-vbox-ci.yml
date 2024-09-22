@@ -50,9 +50,9 @@ jobs:
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
           echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
           sudo apt-get update
-          wget https://download.virtualbox.org/virtualbox/7.1.0/virtualbox-7.1_7.1.0-164728~Ubuntu~$(lsb_release -cs)_amd64.deb
-          sudo apt-get install -y linux-headers-$(uname -r) dkms build-essential
-          sudo apt-get install ./virtualbox-7.1_7.1.0-164728~Ubuntu~$(lsb_release -cs)_amd64.deb
+          wget https://download.virtualbox.org/virtualbox/7.0.14/virtualbox-7.0_7.0.14-161095~Ubuntu~$(lsb_release -cs)_amd64.deb
+          sudo apt-get install -y linux-headers-$(uname -r) dkms
+          sudo apt-get install ./virtualbox-7.0_7.0.14-161095~Ubuntu~$(lsb_release -cs)_amd64.deb
 
       - name: Verify VirtualBox installation
         run: VBoxManage --version
@@ -77,6 +77,7 @@ jobs:
 
       - name: Verify packer installation
         run: packer --version
+
 
       - name: Run packer build
         run: |

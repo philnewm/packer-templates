@@ -65,7 +65,7 @@ source "virtualbox-iso" "almalinux-9" {
     ["modifyvm", "{{.Name}}", "--uartmode1", "disconnected"],
     ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga"],
     ["modifyvm", "{{.Name}}", "--vram", "256"],
-    # ["modifyvm", "{{.Name}}", "--accelerate-3d", "off"],
+    ["modifyvm", "{{.Name}}", "--accelerate-3d", "off"],
     ["modifyvm", "{{.Name}}", "--accelerate-2d-video", "on"],
     ["modifyvm", "{{.Name}}", "--defaultfrontend", "gui"],
     ["modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional"],
