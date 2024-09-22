@@ -51,6 +51,7 @@ nfs-utils
 cifs-utils
 chrony
 yum-utils
+nano
 hyperv-daemons
 open-vm-tools
 # Vagrant boxes aren't normally visible, no need for Plymouth
@@ -171,6 +172,11 @@ dracut -f /boot/initramfs-${KERNEL_VERSION}.img ${KERNEL_VERSION}
 
 # Seal for deployment
 rm -rf /etc/ssh/ssh_host_*
-hostnamectl set-hostname localhost.localdomain
+hostnamectl set-hostname centosstream9
 rm -rf /etc/udev/rules.d/70-*
+
+# Set the hostname
+touch /etc/hostname
+echo "centosstream9" > /etc/hostname
+
 %end

@@ -93,14 +93,15 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "Ubuntu-2204-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
+      output            = "Ubuntu-2204-Vagrant-{{.Provider}}.x86_64.box"
       only = ["virtualbox-iso.ubuntu-2204"]
     }
 
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
-      output               = "Ubuntu-2204-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      output               = "Ubuntu-2204-Vagrant-{{.Provider}}.x86_64.box"
       only                 = ["qemu.ubuntu-2204"]
     }
   }

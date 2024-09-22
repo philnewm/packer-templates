@@ -97,14 +97,15 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "centosstream-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
+      output            = "CentOSStream-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
       only = ["virtualbox-iso.centosstream-9"]
     }
 
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
-      output               = "centosstream-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      output               = "CentOSStream-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
       only                 = ["qemu.centosstream-9"]
     }
   }

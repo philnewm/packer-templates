@@ -46,13 +46,13 @@ bzip2
 dracut-config-generic
 grub2-pc
 tar
+nano
 usermode
 -biosdevname
 -dnf-plugin-spacewalk
 -dracut-config-rescue
 -iprutils
 -iwl*-firmware
--langpacks-*
 -mdadm
 -open-vm-tools
 -plymouth
@@ -67,6 +67,10 @@ usermode
 %post --erroronfail
 
 grub2-install --target=i386-pc /dev/sda
+
+# Set the hostname
+touch /etc/hostname
+echo "rocky9" > /etc/hostname
 
 # allow vagrant user to run everything without a password
 echo "vagrant     ALL=(ALL)     NOPASSWD: ALL" >> /etc/sudoers.d/vagrant

@@ -95,14 +95,15 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      output            = "rocky-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
+      output            = "Rocky-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
       only = ["virtualbox-iso.rocky-9"]
     }
 
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
-      output               = "rocky-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      output               = "Rocky-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
       only                 = ["qemu.rocky-9"]
     }
   }
