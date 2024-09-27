@@ -44,6 +44,7 @@ jobs:
       - name: Update system
         run: |
           sudo apt-get update -y
+          sudo apt upgrade openssh-client openssh-server
 
       - name: Install VirtualBox 7.1.0
         run: |
