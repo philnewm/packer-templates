@@ -95,14 +95,14 @@ build {
     post-processor "vagrant" {
       compression_level = "9"
       vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
-      output            = "Debian-12-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      output            = "Debian-12-Vagrant-{{.Provider}}.x86_64.box"
       only = ["virtualbox-iso.debian-12"]
     }
 
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
-      output               = "Debian-12-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      output               = "Debian-12-Vagrant-{{.Provider}}.x86_64.box"
       only                 = ["qemu.debian-12"]
     }
   }
