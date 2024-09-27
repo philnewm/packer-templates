@@ -91,6 +91,7 @@ build {
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",
       "ANSIBLE_SCP_EXTRA_ARGS=-O",
+      "ANSIBLE_SCP_IF_SSH=False",  # only required for ubuntu20.04
     ]
     extra_arguments = [
       "--extra-vars",
