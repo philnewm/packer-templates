@@ -1,57 +1,44 @@
-#cloud-config
+#cloud-config 
+# https://gist.github.com/craig-m/eb4a0840fa03a82398423769676ef426
+# preserve_hostname: false
 autoinstall:
-  # Hi there! If you are like me, and the ugly comment on line 1 is triggering your OCD, you might be wondering why
-  # it has not been removed. Well, let me indulge you. It needs to be there, or this entire autoinstall file will not
-  # be picked up it all. This is all very nicely documented by Ubuntu (NOT), so this took me an hour to find out,
-  # making me add this little comment do you don't have to!
   version: 1
-  early-commands:
-    # We need to disable ssh during the autoinstall phase, or Packer will try to connect.
-    # After autoinstall, the VM will reboot, ssh will start up, and then Packer can continue.
-    - "systemctl stop sshd"
-  codecs:
-    install: false
-  drivers:
-    install: false
   identity:
     hostname: ubuntu2204
     username: vagrant
-    # This password is "vagrant", use the command `openssl passwd -6` to generate a new hash if needed.
-    # This needs to match the "ssh_password" field in packer.json
-    password: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
     realname: vagrant
+    password: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
+  ssh:
+    allow-pw: true
+    install-server: true
   kernel:
     package: linux-generic
   keyboard:
     layout: "us"
     toggle: null
-  locale: "en_US.UTF-8"
-  ssh:
-    install-server: true
-    allow-pw: true
-  network:
-    ethernets:
-      enp0s3:
-          dhcp4: true
-          dhcp6: true
-    version: 2
   storage:
     layout:
       name: direct
   packages:
-    - network-manager
-    - bzip2
-    - tar
     - python3
-    - grub-pc
-    - open-vm-tools
-  runcmd:
-    - sudo netplan apply
-    - tasksel install server
-    - apt-get -y remove biosdevname dnf-plugin-spacewalk dracut-config-rescue iprutils
-    - apt-get -y remove '*-firmware' '*langpack-*' plymouth rh*
-    - apt-get -y autoremove
-    - update-initramfs -u
+    - python3-pip
+    - curl
+    - vim
+    - git
+  user-data:
+    users:
+      - name: vagrant
+        gecos: Vagrant User
+        primary_group: sudo
+        groups: [sudo, adm]
+        lock_passwd: false
+        passwd: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
+    package_update: true
+    package_upgrade: true
+    runcmd:
+      - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/vagrant
+      # - sudo systemd-machine-id-setup
+      # - sudo systemctl restart systemd-networkd
   late-commands:
     - "curtin in-target --target=/target -- rm -rf /var/lib/apt/lists"
     - "curtin in-target --target=/target -- apt-get update"
@@ -62,6 +49,5 @@ autoinstall:
     - "curtin in-target --target=/target -- apt-get clean"
     - "curtin in-target --target=/target -- rm -rf /var/lib/apt/lists/*"
     - "rm -rf /var/lib/apt/lists/*"
-    - "echo 'Defaults:vagrant !requiretty' > /target/etc/sudoers.d/vagrant"
-    - "echo 'vagrant ALL=(ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/vagrant"
-    - "chmod 440 /target/etc/sudoers.d/vagrant"
+  power_state:
+    mode: reboot

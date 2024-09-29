@@ -78,6 +78,8 @@ build {
     playbook_file        = "./ansible/vagrant-box.yml"
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
+      "ANSIBLE_FORCE_COLOR=true",
+      "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",
       "ANSIBLE_SCP_EXTRA_ARGS=-O",
     ]

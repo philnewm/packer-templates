@@ -78,6 +78,9 @@ build {
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",
+      "ANSIBLE_FORCE_COLOR=true",
+      "ANSIBLE_STDOUT_CALLBACK=debug",
+      "ANSIBLE_CALLBACKS_ENABLED=debug",
       "ANSIBLE_SCP_EXTRA_ARGS=-O",
     ]
     extra_arguments = [

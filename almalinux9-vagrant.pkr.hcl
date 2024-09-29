@@ -54,7 +54,7 @@ source "virtualbox-iso" "almalinux-9" {
   cpus                 = var.cpus
   memory               = var.memory
   headless             = var.headless
-  gfx_efi_resolution   = "1920x1080"
+  gfx_efi_resolution   = "1280x720"
   hard_drive_interface = "sata"
   iso_interface        = "sata"
   output_directory     = "output_vbox"
@@ -88,6 +88,8 @@ build {
     roles_path           = "./ansible/roles"
     playbook_file        = "./ansible/vagrant-box.yml"
     ansible_env_vars = [
+      "ANSIBLE_PIPELINING=True",
+      "ANSIBLE_FORCE_COLOR=true",
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",
       "ANSIBLE_SCP_EXTRA_ARGS=-O",

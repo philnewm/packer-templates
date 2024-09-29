@@ -21,6 +21,7 @@ source "qemu" "centosstream-9" {
   disk_compression   = true
   format             = "qcow2"
   headless           = var.headless
+  gfx_efi_resolution   = "1280x720"
   machine_type       = "q35"
   memory             = var.memory
   net_device         = "virtio-net"
@@ -80,6 +81,8 @@ build {
     roles_path           = "./ansible/roles"
     playbook_file        = "./ansible/vagrant-box.yml"
     ansible_env_vars = [
+      "ANSIBLE_PIPELINING=True",
+      "ANSIBLE_FORCE_COLOR=true",
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",
       "ANSIBLE_SCP_EXTRA_ARGS=-O",
