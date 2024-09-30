@@ -19,6 +19,7 @@ auto_install_files:
     - "/var/log/installer/autoinstall-user-data"
 log_files:
   "RedHat":
+    - /etc/machine-id
     - /etc/resolv.conf
     - /var/log/audit/audit.log
     - /var/log/wtmp
