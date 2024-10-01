@@ -233,17 +233,19 @@ local "ubuntu_vagrant_boot_command_2204_x86_64" {
   ]
 }
 
+# https://forums.virtualbox.org/viewtopic.php?t=110897
 local "debian_vagrant_boot_command_12_x86_64" {
   expression = [
-    "<wait><wait><wait><esc><wait><wait><wait>",
-    "/install.amd/vmlinuz ",
-    "initrd=/install.amd/initrd.gz ",
+    "<wait>c<wait>",
+    "linux /install.amd/vmlinuz ",
     "auto=true ",
     "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-12-vagrant-x86_64.preseed ",
     "hostname=debian12 ",
     "domain='' ",
     "interface=auto ",
-    "vga=788 noprompt quiet --<enter>"
+    "vga=788 noprompt fb=false quiet --<enter>",
+    "initrd /install.amd/initrd.gz<enter>",
+    "boot<enter>"
   ]
 }
 

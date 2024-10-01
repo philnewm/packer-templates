@@ -43,11 +43,13 @@ source "virtualbox-iso" "ubuntu-2204" {
   ssh_timeout          = var.ssh_timeout
   boot_command         = local.ubuntu_vagrant_boot_command_2204_x86_64
   boot_wait            = var.boot_wait
+  firmware             = "efi"
   disk_size            = var.vagrant_disk_size
   guest_os_type        = "Ubuntu_64"
   cpus                 = var.cpus
   memory               = var.memory
   headless             = var.headless
+  gfx_efi_resolution   = "1280x720"
   hard_drive_interface = "sata"
   iso_interface        = "sata"
   vboxmanage           = [["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]]

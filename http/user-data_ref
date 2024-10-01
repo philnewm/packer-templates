@@ -1,0 +1,53 @@
+#cloud-config 
+# https://gist.github.com/craig-m/eb4a0840fa03a82398423769676ef426
+# preserve_hostname: false
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu2204
+    username: vagrant
+    realname: vagrant
+    password: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
+  ssh:
+    allow-pw: true
+    install-server: true
+  kernel:
+    package: linux-generic
+  keyboard:
+    layout: "us"
+    toggle: null
+  storage:
+    layout:
+      name: direct
+  packages:
+    - python3
+    - python3-pip
+    - curl
+    - vim
+    - git
+  user-data:
+    users:
+      - name: vagrant
+        gecos: Vagrant User
+        primary_group: sudo
+        groups: [sudo, adm]
+        lock_passwd: false
+        passwd: "$6$CG/3wG6U6vagDFjC$WjSNjZaL/CqK/8SwMO0ARqvY614BG2LceS9ZEGr6K9PQhIDnNmlZVEG6z2LmoDYK0XYtP7emnR5Pte4j7DUoA0"
+    package_update: true
+    package_upgrade: true
+    runcmd:
+      - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/vagrant
+      # - sudo systemd-machine-id-setup
+      # - sudo systemctl restart systemd-networkd
+  late-commands:
+    - "curtin in-target --target=/target -- rm -rf /var/lib/apt/lists"
+    - "curtin in-target --target=/target -- apt-get update"
+    - "curtin in-target --target=/target -- apt-get -y upgrade"
+    - "curtin in-target --target=/target -- apt-get -y dist-upgrade"
+    - "curtin in-target --target=/target -- apt-get -y autoremove"
+    - "curtin in-target --target=/target -- apt-get autoclean"
+    - "curtin in-target --target=/target -- apt-get clean"
+    - "curtin in-target --target=/target -- rm -rf /var/lib/apt/lists/*"
+    - "rm -rf /var/lib/apt/lists/*"
+  power_state:
+    mode: reboot

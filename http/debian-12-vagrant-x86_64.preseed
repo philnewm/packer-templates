@@ -18,7 +18,9 @@ d-i finish-install/reboot_in_progress note
 # This is fairly safe to set, it makes grub install automatically to the MBR
 # if no other operating system is detected on the machine.
 d-i grub-installer/only_debian boolean true
-d-i grub-installer/bootdev string /dev/sda
+d-i grub-installer/bootdev string default
+d-i grub-installer/efi/secure_boot boolean false
+d-i grub-installer/with_other_os boolean true
 
 # This one makes grub-installer install to the MBR if it also finds some other
 # OS, which is less safe as it might not be able to boot that other OS.
@@ -50,6 +52,7 @@ d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
+d-i partman-efi/non_efi_system boolean true
 
 ### Account setup
 d-i passwd/user-fullname string vagrant
@@ -69,7 +72,7 @@ popularity-contest popularity-contest/participate boolean false
 apt-cdrom-setup apt-setup/cdrom/set-first boolean false
 d-i pkgsel/run_tasksel boolean false
 d-i pkgsel/install-recommends boolean false
-d-i pkgsel/include string openssh-server build-essential python3
+d-i pkgsel/include string openssh-server build-essential python3 locales-all
 d-i pkgsel/install-language-support boolean false
 d-i pkgsel/upgrade select full-upgrade
 

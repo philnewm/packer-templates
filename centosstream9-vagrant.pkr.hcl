@@ -52,6 +52,7 @@ source "virtualbox-iso" "centosstream-9" {
   cpus                 = var.cpus
   memory               = var.memory
   headless             = var.headless
+  gfx_efi_resolution   = "1280x720"
   hard_drive_interface = "sata"
   iso_interface        = "sata"
   output_directory     = "output_vbox"

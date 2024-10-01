@@ -1,15 +1,16 @@
-# Short Term
+# Remaining Tasks
+
+## Short Term
+
+* vagrant cloud publish philnewm/debian12-gnome 0.1.1 virtualbox Debian.. --version-description "Fix non-opening terminal" --release
 * Move reboots to handlers for one reboot at the end
+* Fix broken gnome-terminal on debian
+* Update debian12 + Ubuntu22.04 to use efi boot by default
 * Add zstd to debian12 box for slightly faster package install process
-* fix bidirectional clipboard for Ubuntu22.04 an debian12 box
 * check for virtualbox guest additions version using `VBoxControl --version`
 * Research [packer CI/CD integration](https://developer.hashicorp.com/packer/guides/packer-on-cicd/build-virtualbox-image)
 
+## Long Term
 
-# Long Term
-* research how to manage static ip adresses for pre-made images
-* research resonable defaults kickstart information for vbox dev VMs/libvirt VMs
-
-
-# infos
-*checksum (sha256sum): f7ea0469a4ff0fbfc4be7d013431fe839c3fdca3dc969dd7086c98d757e92389
+* research how to manage static ip addresses for pre-made images
+* research reasonable defaults kickstart information for vbox dev VMs/libvirt VMs
