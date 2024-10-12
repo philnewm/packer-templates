@@ -28,9 +28,7 @@ permissions:
 
 jobs:
   debian12-vbox:
-    runs-on: ubuntu-20.04
-    strategy:
-      max-parallel: 5
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo  
@@ -75,7 +73,7 @@ jobs:
           export USER=$(whoami)
           export LOGNAME=$(whoami)
           packer init versions.pkr.hcl
-          packer build -only=virtualbox-iso.ubuntu-2204 .
+          packer build -only=virtualbox-iso.debian-12 .
 
       - name: Test to run vagrant box
         run: |

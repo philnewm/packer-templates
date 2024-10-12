@@ -28,9 +28,7 @@ permissions:
 
 jobs:
   centosstream9-vbox:
-    runs-on: ubuntu-20.04
-    strategy:
-      max-parallel: 5
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo  

@@ -38,8 +38,8 @@ variable "ubuntu_os_ver" {
 }
 
 locals {
-  ubuntu_iso_url_2204_x86_64       = "https://releases.ubuntu.com/${var.ubuntu_os_ver}/ubuntu-22.04.5-live-server-amd64.iso"
-  ubuntu_iso_checksum_2204_x86_64  = "file:https://releases.ubuntu.com/releases/22.04.5/SHA256SUMS"
+  ubuntu_iso_url_2204_x86_64       = "https://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso"
+  ubuntu_iso_checksum_2204_x86_64  = "file:https://releases.ubuntu.com/jammy/SHA256SUMS"
 }
 
 locals {
