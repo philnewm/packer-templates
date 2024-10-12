@@ -30,8 +30,15 @@ locals {
   centosstream_iso_checksum_9_x86_64  = "file:https://mirror.stream.centos.org/${local.os_ver_major_9}-stream/BaseOS/x86_64/iso/CentOS-Stream-${local.os_ver_major_9}-latest-x86_64-boot.iso.MD5SUM"
 }
 
+variable "ubuntu_os_ver" {
+  description = "Ubuntu version"
+
+  type    = string
+  default = "2204"
+}
+
 locals {
-  ubuntu_iso_url_2204_x86_64       = "https://releases.ubuntu.com/22.04/ubuntu-22.04.5-live-server-amd64.iso"
+  ubuntu_iso_url_2204_x86_64       = "https://releases.ubuntu.com/${var.ubuntu_os_ver}/ubuntu-22.04.5-live-server-amd64.iso"
   ubuntu_iso_checksum_2204_x86_64  = "file:https://releases.ubuntu.com/releases/22.04.5/SHA256SUMS"
 }
 
@@ -234,18 +241,18 @@ local "ubuntu_vagrant_boot_command_2204_x86_64" {
 }
 
 # https://forums.virtualbox.org/viewtopic.php?t=110897
+# for uefi boot to work: "vga=788 noprompt fb=false quiet --<enter>"
 local "debian_vagrant_boot_command_12_x86_64" {
   expression = [
-    "<wait>c<wait>",
-    "linux /install.amd/vmlinuz ",
+    "<wait><wait><wait><esc><wait><wait><wait>",
+    "/install.amd/vmlinuz ",
+    "initrd=/install.amd/initrd.gz ",
     "auto=true ",
     "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-12-vagrant-x86_64.preseed ",
     "hostname=debian12 ",
     "domain='' ",
     "interface=auto ",
-    "vga=788 noprompt fb=false quiet --<enter>",
-    "initrd /install.amd/initrd.gz<enter>",
-    "boot<enter>"
+    "vga=788 noprompt quiet --<enter>"
   ]
 }
 

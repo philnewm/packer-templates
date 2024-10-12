@@ -34,7 +34,7 @@ source "qemu" "almalinux-9" {
 }
 
 variable "box_name" {
-  default = "AlmaLinux"
+  default = "Almalinux"
 }
 
 source "virtualbox-iso" "almalinux-9" {
@@ -54,7 +54,6 @@ source "virtualbox-iso" "almalinux-9" {
   cpus                 = var.cpus
   memory               = var.memory
   headless             = var.headless
-  gfx_efi_resolution   = "1280x720"
   hard_drive_interface = "sata"
   iso_interface        = "sata"
   output_directory     = "output_vbox"
@@ -67,11 +66,8 @@ source "virtualbox-iso" "almalinux-9" {
     ["modifyvm", "{{.Name}}", "--vram", "256"],
     ["modifyvm", "{{.Name}}", "--accelerate-3d", "off"],
     ["modifyvm", "{{.Name}}", "--accelerate-2d-video", "on"],
-    ["modifyvm", "{{.Name}}", "--defaultfrontend", "gui"],
     ["modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional"],
     ["modifyvm", "{{.Name}}", "--draganddrop", "bidirectional"],
-    # ["modifyhd", "{{.DiskPath}}", "--property", "SSD=on"],
-    ["storagectl", "{{.Name}}", "--name", "SATA Controller", "--hostiocache", "on"]
   ]
 }
 
@@ -90,10 +86,9 @@ build {
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_FORCE_COLOR=true",
-      "ANSIBLE_PIPELINING=True",
-      "ANSIBLE_REMOTE_TEMP=/tmp",
-      "ANSIBLE_SCP_EXTRA_ARGS=-O",
-      "ANSIBLE_SCP_IF_SSH=False",  # only required for ubuntu20.04
+      "ANSIBLE_STDOUT_CALLBACK=debug",
+      "ANSIBLE_CALLBACKS_ENABLED=debug",
+      "ANSIBLE_REMOTE_TEMP=/tmp"
     ]
     extra_arguments = [
       "--extra-vars",
@@ -108,8 +103,7 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
-      output            = "${var.box_name}-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
+      output            = "${var.box_name}-${local.os_ver_major_9}-Vagrant-{{.Provider}}.x86_64.box"
       provider_override = "virtualbox"
       only = ["virtualbox-iso.almalinux-9"]
     }
@@ -117,7 +111,7 @@ build {
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
-      output               = "AlmaLinux-9-Vagrant-{{.Provider}}-${var.os_ver_9}.x86_64.box"
+      output               = "Almalinux-${local.os_ver_major_9}-Vagrant-{{.Provider}}.x86_64.box"
       only                 = ["qemu.almalinux-9"]
     }
   }

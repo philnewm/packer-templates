@@ -43,13 +43,11 @@ source "virtualbox-iso" "debian-12" {
   ssh_timeout          = var.ssh_timeout
   boot_command         = local.debian_vagrant_boot_command_12_x86_64
   boot_wait            = var.boot_wait
-  firmware             = "efi"
   disk_size            = var.vagrant_disk_size
   guest_os_type        = "Debian_64"
   cpus                 = var.cpus
   memory               = var.memory
   headless             = var.headless
-  gfx_efi_resolution   = "1280x720"
   hard_drive_interface = "sata"
   iso_interface        = "sata"
   output_directory     = "output_vbox"
@@ -81,9 +79,9 @@ build {
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_FORCE_COLOR=true",
-      "ANSIBLE_PIPELINING=True",
-      "ANSIBLE_REMOTE_TEMP=/tmp",
-      "ANSIBLE_SCP_EXTRA_ARGS=-O",
+      "ANSIBLE_STDOUT_CALLBACK=debug",
+      "ANSIBLE_CALLBACKS_ENABLED=debug",
+      "ANSIBLE_REMOTE_TEMP=/tmp"
     ]
     extra_arguments = [
       "--extra-vars",
@@ -98,7 +96,6 @@ build {
 
     post-processor "vagrant" {
       compression_level = "9"
-      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
       output            = "Debian-12-Vagrant-{{.Provider}}.x86_64.box"
       only = ["virtualbox-iso.debian-12"]
     }

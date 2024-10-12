@@ -3,20 +3,21 @@
 name: alma9-qemu-ci
 
 on:
-  push:
-    branches: [ "main" ]
-    paths-ignore:
-      - 'README.md'
-      - 'TODO.md'
-      - '**/*.md'
-      - .gitignore
+  workflow_dispatch:
+  # push:
+  #   branches: [ "main" ]
+  #   paths-ignore:
+  #     - 'README.md'
+  #     - 'TODO.md'
+  #     - '**/*.md'
+  #     - .gitignore
 
-  pull_request:
-    branches: [ "main" ]
-    paths-ignore:
-        - 'README.md'
-        - '**/*.md'
-        - .gitignore
+  # pull_request:
+  #   branches: [ "main" ]
+  #   paths-ignore:
+  #       - 'README.md'
+  #       - '**/*.md'
+  #       - .gitignore
 
 permissions:
   contents: read
@@ -39,18 +40,6 @@ jobs:
       - name: Update system
         run: |
           sudo apt-get update -y
-
-      - name: Install VirtualBox 7.0.14
-        run: |
-          wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
-          sudo apt-get update
-          wget https://download.virtualbox.org/virtualbox/7.0.14/virtualbox-7.0_7.0.14-161095~Ubuntu~$(lsb_release -cs)_amd64.deb
-          sudo apt-get install -y linux-headers-$(uname -r) dkms
-          sudo apt-get install ./virtualbox-7.0_7.0.14-161095~Ubuntu~$(lsb_release -cs)_amd64.deb
-
-      - name: Verify VirtualBox installation
-        run: VBoxManage --version
 
       - name: Install vagrant
         run: |
@@ -98,9 +87,10 @@ jobs:
           vagrant init alma9
           vagrant up --provider=libvirt
 
-      - name: Show running box
-        run: |
-          vagrant box list
-          vagrant global-status
+      - name: Upload vagrant box
+        uses: actions/upload-artifact@v4
+        with:
+          name: alma9-qemu-vagrant-box
+          path: AlmaLinux-9-Vagrant-qemu-9.4.x86_64.box
 
 ...

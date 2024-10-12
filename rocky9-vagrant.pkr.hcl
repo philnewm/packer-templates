@@ -23,7 +23,7 @@ source "qemu" "rocky-9" {
   memory             = var.memory
   net_device         = "virtio-net"
   qemu_binary        = var.qemu_binary
-  vm_name            = "Rocky-9-Vagrant-Libvirt-${var.os_ver_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.qcow2"
+  vm_name            = "Rocky-9-Vagrant-Libvirt-${local.os_ver_major_9}-${formatdate("YYYYMMDD", timestamp())}.x86_64.qcow2"
   cpu_model          = "host"
   cpus               = var.cpus
   efi_boot           = true
@@ -68,8 +68,8 @@ source "virtualbox-iso" "rocky-9" {
 
 build {
   sources = [
-    "source.qemu.rocky-9",
-    "source.virtualbox-iso.rocky-9"
+    "source.qemu.rocky-${local.os_ver_major_9}",
+    "source.virtualbox-iso.rocky-${local.os_ver_major_9}"
   ]
 
   provisioner "ansible" {
@@ -81,9 +81,9 @@ build {
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_FORCE_COLOR=true",
-      "ANSIBLE_PIPELINING=True",
-      "ANSIBLE_REMOTE_TEMP=/tmp",
-      "ANSIBLE_SCP_EXTRA_ARGS=-O",
+      "ANSIBLE_STDOUT_CALLBACK=debug",
+      "ANSIBLE_CALLBACKS_ENABLED=debug",
+      "ANSIBLE_REMOTE_TEMP=/tmp"
     ]
     extra_arguments = [
       "--extra-vars",
@@ -91,23 +91,21 @@ build {
     ]
     only = [
       "qemu.rocky-9",
-      "virtualbox-iso.rocky-9"
+      "virtualbox-iso.rocky-${local.os_ver_major_9}"
     ]
   }
     post-processors {
 
     post-processor "vagrant" {
       compression_level = "9"
-      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
-      output            = "Rocky-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
-      only = ["virtualbox-iso.rocky-9"]
+      output            = "Rocky-${local.os_ver_major_9}-Vagrant-{{.Provider}}.x86_64.box"
+      only = ["virtualbox-iso.rocky-${local.os_ver_major_9}"]
     }
 
     post-processor "vagrant" {
       compression_level    = "9"
-      vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
-      output               = "Rocky-${var.os_ver_9}-Vagrant-{{.Provider}}.x86_64.box"
-      only                 = ["qemu.rocky-9"]
+      output               = "Rocky-${local.os_ver_major_9}-Vagrant-{{.Provider}}.x86_64.box"
+      only                 = ["qemu.rocky-${local.os_ver_major_9}"]
     }
   }
 }

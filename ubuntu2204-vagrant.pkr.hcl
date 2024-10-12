@@ -1,5 +1,9 @@
 # AlmaLinux OS 9 Packer template for Vagrant boxes
 
+variable "ubuntu_box_name" {
+  default = "Ubuntu"
+}
+
 source "qemu" "ubuntu-2204" {
   iso_url            = local.ubuntu_iso_url_2204_x86_64
   iso_checksum       = local.ubuntu_iso_checksum_2204_x86_64
@@ -38,6 +42,7 @@ source "virtualbox-iso" "ubuntu-2204" {
   iso_checksum         = local.ubuntu_iso_checksum_2204_x86_64
   http_directory       = var.http_directory
   shutdown_command     = var.vagrant_shutdown_command
+  vm_name              = var.ubuntu_box_name
   ssh_username         = var.vagrant_ssh_username
   ssh_password         = var.vagrant_ssh_password
   ssh_timeout          = var.ssh_timeout
@@ -67,8 +72,8 @@ source "virtualbox-iso" "ubuntu-2204" {
 
 build {
   sources = [
-    "source.qemu.ubuntu-2204",
-    "source.virtualbox-iso.ubuntu-2204"
+    "source.qemu.ubuntu-${var.ubuntu_os_ver}",
+    "source.virtualbox-iso.ubuntu-${var.ubuntu_os_ver}"
   ]
 
   provisioner "ansible" {
@@ -90,24 +95,23 @@ build {
       "packer_provider=${source.type}",
     ]
     only = [
-      "qemu.ubuntu-2204",
-      "virtualbox-iso.ubuntu-2204"
+      "qemu.ubuntu-${var.ubuntu_os_ver}",
+      "virtualbox-iso.ubuntu-${var.ubuntu_os_ver}"
     ]
   }
     post-processors {
 
     post-processor "vagrant" {
       compression_level = "9"
-      vagrantfile_template = "vagrant_template/vagrantfile_gui.rb"
-      output            = "Ubuntu-2204-Vagrant-{{.Provider}}.x86_64.box"
-      only = ["virtualbox-iso.ubuntu-2204"]
+      output            = "${var.ubuntu_box_name}-${var.ubuntu_os_ver}-Vagrant-{{.Provider}}.x86_64.box"
+      only = ["virtualbox-iso.ubuntu-${var.ubuntu_os_ver}"]
     }
 
     post-processor "vagrant" {
       compression_level    = "9"
       vagrantfile_template = "tpl/vagrant/vagrantfile-libvirt.rb"
       output               = "Ubuntu-2204-Vagrant-{{.Provider}}.x86_64.box"
-      only                 = ["qemu.ubuntu-2204"]
+      only                 = ["qemu.ubuntu-${var.ubuntu_os_ver}"]
     }
   }
 }

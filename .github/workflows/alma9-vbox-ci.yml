@@ -3,6 +3,7 @@
 name: alma9-vbox-ci
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
     paths-ignore:
@@ -21,7 +22,7 @@ on:
 env:
   build_source_name: almalinux-9
   box_name: almalinux9
-  box_file: AlmaLinux-9.4-Vagrant-virtualbox.x86_64.box
+  box_file: AlmaLinux-9-Vagrant-virtualbox.x86_64.box
 
 permissions:
   contents: read
@@ -33,7 +34,7 @@ jobs:
       max-parallel: 5
 
     steps:
-      - name: Checkout repo  
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Python 3.10
@@ -58,10 +59,6 @@ jobs:
       - name: Verify VirtualBox installation
         run: VBoxManage --version
 
-      - name: Show vbox log
-        run: |
-          cat /var/log/vbox-setup.log
-
       - name: Install vagrant
         run: |
           # Get vagrant gpg key
@@ -78,7 +75,6 @@ jobs:
 
       - name: Verify packer installation
         run: packer --version
-
 
       - name: Run packer build
         run: |
@@ -98,7 +94,7 @@ jobs:
           vagrant box list
           vagrant global-status
 
-      - name: Upload vagrant box file
+      - name: Upload vbox vagrant box file
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.box_name }}-vagrant-box"
