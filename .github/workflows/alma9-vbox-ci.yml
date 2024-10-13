@@ -22,7 +22,7 @@ on:
 env:
   build_source_name: almalinux-9
   box_name: almalinux9
-  box_file: AlmaLinux-9-Vagrant-virtualbox.x86_64.box
+  box_file: Almalinux-9-Vagrant-virtualbox.x86_64.box
 
 permissions:
   contents: read
